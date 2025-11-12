@@ -73,9 +73,6 @@ body, html {
    margin: 10px;
    font-size: clamp(15px, 1vw, 20px);
 }
-#gap {
-   margin-right: 8px;
-}
 .mainmenu {
    gap: 5px;
    margin: 0 0 4em 0;
@@ -91,41 +88,78 @@ body, html {
    height: 100%;
    padding: clamp(5px, 18vw, 10px);
    display: grid;
-   grid-template-columns: 25% 25% 25% 25%;
-   grid-template-rows: 0.5fr 1fr 2fr 2fr;
-   position: center;
+   grid-template-columns: repeat(4, 25%);
+   grid-template-rows: 9.09% repeat(5, 18.18%);
+   grid-template-areas: 
+   "h1 h1 h1 h1"
+   "g1 g2 g3 g4"
+   "g5 g5 g6 g6"
+   "g5 g5 g6 g6"
+   "g7 g7 g8 g8"
+   "g7 g7 g8 g8"
+   ;
 }
+   .ha1 {grid-area: h1;}
+   .grid1 {grid-area: g1;}
+   .grid2 {grid-area: g2;}
+   .grid3 {grid-area: g3;}
+   .grid4 {grid-area: g4;}
+   .grid5 {grid-area: g5;}
+   .grid6 {grid-area: g6;}
+   .grid7 {grid-area: g7;}
+   .grid8 {grid-area: g8;}
+
 #grid {
    border-radius: 15px;
    backdrop-filter: blur(20px) saturate(200%);
    box-shadow: 0 0 8px rgba(255,255,255,0.4);
-   display: flex;
-   flex-direction: column;
    margin: 10px;
 }
+
+
 .ha1 {
-   grid-column: 1/5;
    display: flex;
    align-items: center;
    padding: 0 0 0 3em;
    font-size: clamp(10px, 2vw, 25px);
 }
-.grid5 {
-   grid-column: 1/3;
-   grid-row: 3/4;
-}
-.grid6 {
-   grid-column: 3/5;
-   grid-row: 3/4;
-}
-.grid7 {
-   grid-column: 1/3;
-   grid-row: 4/5;
-}
-.grid8 {
-   grid-column: 3/5;
-   grid-row: 4/5;
-}
-@media screen and (max-width: 800px) {
-   
-                }
+@media screen and (max-width: 1050px) {
+   .sidebar {
+       position: fixed;
+       top: 0;
+       left: 0;
+       height: 100%;
+       width: clamp(180px, 60vw, 300px);
+       background-color: var(--color-5);
+       transform: translateX(-100%); /* sembunyikan */
+       z-index: 90;
+       transition: transform 0.3s ease;
+     }
+
+     .sidebar.active {
+    transform: translateX(0); /* tampilkan saat di klik */
+     }
+   .mainbar {
+      grid-template-areas: 
+      "h1 h1"
+      "g1 g2"
+      "g3 g4"
+      "g5 g5"
+      "g6 g6"
+      "g7 g7"
+      "g8 g8";
+   grid-template-columns: 50% 50%;
+   grid-template-rows: 55px 200px 200px repeat(4, 300px);
+   padding: 5px;
+   }
+   #grid {
+      margin: clamp(5px, 8vw, 8px);
+   }
+   .humburger {
+      order: 1;
+      z-index: 100;
+   }
+   .topbar h4 {
+      order: 2;
+   }
+   }
