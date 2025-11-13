@@ -46,7 +46,7 @@ body, html {
 }
 .mainlayout {
    display: flex;
-   height: 100%;
+   height: calc(100% - clamp(50px, 4vw, 80px));
    width: 100%;
 }
 .sidebar {
@@ -109,7 +109,7 @@ body, html {
    .grid7 {grid-area: g7;}
    .grid8 {grid-area: g8;}
 
-#grid {
+[id^="ig"] {
    border-radius: 15px;
    backdrop-filter: blur(20px) saturate(200%);
    box-shadow: 0 0 8px rgba(255,255,255,0.4);
@@ -122,6 +122,9 @@ body, html {
    align-items: center;
    padding: 0 0 0 3em;
    font-size: clamp(10px, 2vw, 25px);
+}
+.swpbtnc1, .swpbtnc2 {
+   display: none;
 }
 @media screen and (max-width: 1050px) {
    .sidebar {
@@ -144,15 +147,50 @@ body, html {
       "h1 h1"
       "g1 g2"
       "g3 g4"
+      "gt5 gt5"
       "g5 g5"
-      "g6 g6"
-      "g7 g7"
-      "g8 g8";
+      "gt7 gt7"
+      "g7 g7";
    grid-template-columns: 50% 50%;
-   grid-template-rows: 55px 200px 200px repeat(4, 300px);
+   grid-template-rows: 55px 200px 200px 35px 300px 35px 300px;
    padding: 5px;
+   height: calc(100% + 120px);
    }
-   #grid {
+   .mainlayout {
+      width: 100%;
+      min-height: 100%;
+      height: auto;
+   }
+   .gra5, .gra6 {
+      grid-area: g5;
+   }
+   .gra7, .gra8 {
+      grid-area: g7;
+   }
+   .cviewp {
+      display: flex !important;
+      opacity: 1;
+   }
+   .hviewp {
+      display: none !important;
+      opacity: 0;
+   }
+   .swpbtn {
+      border: solid 3px cyan;
+   }
+   .swpbtnc1 {
+      grid-area: gt5;
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 10px;
+   }
+   .swpbtnc2 {
+      grid-area: gt7;
+      display: flex;
+      justify-content: flex-end;
+      margin-right: 10px;
+   }
+   [id^="ig"] {
       margin: clamp(5px, 8vw, 8px);
    }
    .humburger {
@@ -162,4 +200,4 @@ body, html {
    .topbar h4 {
       order: 2;
    }
-   }
+}
