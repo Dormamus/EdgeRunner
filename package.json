@@ -1,0 +1,26 @@
+{
+  "name": "edgerunner",
+  "version": "1.0.0",
+  "description": "Sementara",
+  "main": "app.js",
+  
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mulai": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dormamus/EdgeRunner.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Dormamus/EdgeRunner/issues"
+  },
+  "homepage": "https://github.com/Dormamus/EdgeRunner#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

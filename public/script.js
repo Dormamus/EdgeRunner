@@ -40,7 +40,7 @@ function swapGrids(buttonId) {
         visibleGrid.classList.add('hviewp');
         
         // --- Bagian Animasi Fade-In ---
-        // Hapus kelas 'hide-immediately' dari yang akan ditampilkan (jika ada)
+        // Hapus kelas 'hide-immediately' dari yang akan ditampilkan (jika ada) bege.jpg
         hiddenGrid.classList.remove('hide-immediately'); 
         // Tambahkan 'cviewp' untuk memulai fade-in
         hiddenGrid.classList.remove('hviewp'); // Pastikan hviewp dihilangkan jika ada
