@@ -3,6 +3,7 @@ function toggleSidebar(){
       document.querySelector('.sidebar').classList.toggle('active');
 }
 
+const ANIMATION_DURATION = 500;
 // Fungsi Swap Utama: Menerima ID tombol untuk menentukan grup mana yang ditukar
 function swapGrids(buttonId) {
     let visibleGrid, hiddenGrid;
@@ -33,13 +34,28 @@ function swapGrids(buttonId) {
     // --- Melakukan Swap ---
     
     if (visibleGrid && hiddenGrid) {
-        // Sembunyikan yang saat ini terlihat
+        // --- Bagian Animasi Fade-Out ---
+        // Hapus kelas 'cviewp' dan tambahkan 'hviewp' untuk memulai fade-out
         visibleGrid.classList.remove('cviewp');
         visibleGrid.classList.add('hviewp');
         
-        // Tampilkan yang saat ini tersembunyi
-        hiddenGrid.classList.remove('hviewp');
+        // --- Bagian Animasi Fade-In ---
+        // Hapus kelas 'hide-immediately' dari yang akan ditampilkan (jika ada)
+        hiddenGrid.classList.remove('hide-immediately'); 
+        // Tambahkan 'cviewp' untuk memulai fade-in
+        hiddenGrid.classList.remove('hviewp'); // Pastikan hviewp dihilangkan jika ada
         hiddenGrid.classList.add('cviewp');
+
+        
+        // --- Bagian Penundaan Display: none ---
+        // Gunakan setTimeout untuk menunggu animasi opacity selesai
+        setTimeout(() => {
+            // Terapkan 'display: none' (melalui 'hide-immediately')
+            // HANYA jika lebar layar saat ini menunjukkan tampilan mobile
+            if (window.innerWidth <= 1050) { 
+                 visibleGrid.classList.add('hide-immediately'); 
+            }
+        }, ANIMATION_DURATION); // ANIMATION_DURATION adalah waktu transisi CSS Anda (misal: 400)
     }
 }
 
@@ -58,3 +74,4 @@ document.addEventListener('DOMContentLoaded', () => {
         swpbtn2.addEventListener('click', () => swapGrids('swpbtn2'));
     }
 });
+// Set Data
