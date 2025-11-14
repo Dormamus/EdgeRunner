@@ -21,12 +21,12 @@ body, html {
    height: 100%;
    width: 100%;
    overflow: auto;
-   background-image: url('bege.jpg');
+   background-image: url('assets/bege.jpg');
    background-color: rgba(0,0,0,0.5);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  color: white;
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center;
+   color: white;
 }
 .topbar {
    height: clamp(50px, 4vw, 80px);
@@ -140,24 +140,28 @@ body, html {
    width: 100%;
    height: 100%;
 }
+/* Bawah ini untuk ukuran Tablet*/
+@media screen and (max-width: 1024px) {
+   
+}
 
-
-@media screen and (max-width: 1050px) {
+/* Bawah ini untuk ukuran HandPhone */
+@media screen and (max-width: 768px) {
    .sidebar {
-       position: fixed;
-       top: 0;
-       left: 0;
-       height: 100%;
-       width: clamp(180px, 60vw, 300px);
-       background-color: var(--color-5);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: clamp(180px, 60vw, 300px);
+      background-color: var(--color-5);
        transform: translateX(-100%); /* sembunyikan */
-       z-index: 90;
-       transition: transform 0.3s ease-in-out;
-     }
+      z-index: 90;
+      transition: transform 0.3s ease-in-out;
+   }
 
-     .sidebar.active {
+   .sidebar.active {
     transform: translateX(0); /* tampilkan saat di klik */
-     }
+   }
    .mainbar {
       grid-template-areas: 
       "h1 h1"
