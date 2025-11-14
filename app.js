@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import testRoute from "./routes/testRoute.js"
+import produkRoute from "./routes/produkRoute.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,9 +15,9 @@ app.use(express.static(path.join(__dirname, "public"))); //Membuat folder public
 
 // Routes sederhana
 app.get("/", (req, res) => {
-    res.send("WarungKu backend aktif!");
+    res.send("Backend Tokoku telah aktif!");
 });
-app.use("/api",testRoute);
+app.use("/api/produk", produkRoute);
 
 // Jalankan server
 app.listen(PORT, () => {
