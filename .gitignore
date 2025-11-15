@@ -20,3 +20,4 @@ data/*.json
 # System files
 .DS_Store
 Thumbs.db
+public/test
