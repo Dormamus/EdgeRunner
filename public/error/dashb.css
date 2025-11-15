@@ -124,14 +124,18 @@ body, html {
   height: calc(100% -5px);
   border: solid 5px cyan;
   display: flex;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 .g7ab, .g6ab{
-  min-height: 100%;
+  max-height: 200px;
   width: 100%;
   display: flex;
+  overflow-y: auto;
   flex-direction: column;
   border: solid 9px white;
+  /* Bawah ini untuk menghilangkan scroll bar */
+    /* scrollbar-width: none;  */
+
 }
 .g7t, .g6t{
   width: 100%;
@@ -194,11 +198,16 @@ body, html {
   }
   .g7, .g8 {
     grid-area: g7;
+    /* height: 500px; */
   }
-  .g7 {
+  .g7ab {
     overflow-y: auto;
-    height: 300px;
+    height: 100%;
+    scrollbar-width: none;
   }
+  .g7ab::-webkit-scrollbar {
+  display: none;
+    }
   .swpbtn1 {
     grid-area: gst;
   }
