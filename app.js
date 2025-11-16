@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import produkRoute from "./routes/produkRoute.js";
 import penjualanRoute from "./routes/penjualanRoute.js";
+import ekonomiRoute from "./routes/ekonomiRoute.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/produk", produkRoute);
 app.use("/api/penjualan", penjualanRoute);
+app.use("/api/ekonomi", ekonomiRoute);
 
 // Jalankan server
 app.listen(PORT, () => {

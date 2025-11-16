@@ -1,77 +1,108 @@
-// Fungsi untuk toggle sidebar (tetap sederhana)
-function toggleSidebar(){
-      document.querySelector('.sidebar').classList.toggle('active');
+const API_BASE = 'http://localhost:3000/api';
+
+async function handleResponse(res) {
+	const contentType = res.headers.get('content-type') || '';
+	if (!res.ok) {
+		let err = { status: res.status, statusText: res.statusText };
+		try {
+			if (contentType.includes('application/json')) err.body = await res.json();
+			else err.body = await res.text();
+		} catch (e) {
+			
+		}
+		throw err;
+	}
+	if (contentType.includes('application/json')) return res.json();
+	return res.text();
 }
 
-const ANIMATION_DURATION = 500;
-// Fungsi Swap Utama: Menerima ID tombol untuk menentukan grup mana yang ditukar
-function swapGrids(buttonId) {
-    let visibleGrid, hiddenGrid;
-
-    // --- Logika Penentuan Grup Swap ---
-    
-    if (buttonId === 'swpbtn1') {
-        // Ini adalah tombol untuk Grup Atas (ig5 dan ig6)
-        const g5 = document.getElementById('ig5');
-        const g6 = document.getElementById('ig6');
-        
-        // Tentukan mana yang aktif
-        const isG5Visible = g5.classList.contains('cviewp');
-        visibleGrid = isG5Visible ? g5 : g6;
-        hiddenGrid = isG5Visible ? g6 : g5;
-
-    } else if (buttonId === 'swpbtn2') {
-        // Ini adalah tombol untuk Grup Bawah (ig7 dan ig8)
-        const g7 = document.getElementById('ig7');
-        const g8 = document.getElementById('ig8');
-
-        // Tentukan mana yang aktif
-        const isG7Visible = g7.classList.contains('cviewp');
-        visibleGrid = isG7Visible ? g7 : g8;
-        hiddenGrid = isG7Visible ? g8 : g7;
-    }
-    
-    // --- Melakukan Swap ---
-    
-    if (visibleGrid && hiddenGrid) {
-        // --- Bagian Animasi Fade-Out ---
-        // Hapus kelas 'cviewp' dan tambahkan 'hviewp' untuk memulai fade-out
-        visibleGrid.classList.remove('cviewp');
-        visibleGrid.classList.add('hviewp');
-        
-        // --- Bagian Animasi Fade-In ---
-        // Hapus kelas 'hide-immediately' dari yang akan ditampilkan (jika ada)
-        hiddenGrid.classList.remove('hide-immediately'); 
-        // Tambahkan 'cviewp' untuk memulai fade-in
-        hiddenGrid.classList.remove('hviewp'); // Pastikan hviewp dihilangkan jika ada
-        hiddenGrid.classList.add('cviewp');
-
-        
-        // --- Bagian Penundaan Display: none ---
-        // Gunakan setTimeout untuk menunggu animasi opacity selesai
-        setTimeout(() => {
-            // Terapkan 'display: none' (melalui 'hide-immediately')
-            // HANYA jika lebar layar saat ini menunjukkan tampilan mobile
-            if (window.innerWidth <= 1050) { 
-                 visibleGrid.classList.add('hide-immediately'); 
-            }
-        }, ANIMATION_DURATION); // ANIMATION_DURATION adalah waktu transisi CSS Anda (misal: 400)
-    }
+// Produk
+export async function getProduk() {
+	const res = await fetch(`${API_BASE}/produk`);
+	return handleResponse(res);
 }
 
-// Menghubungkan tombol swap ke fungsi swapGrids dengan parameter
-document.addEventListener('DOMContentLoaded', () => {
-    const swpbtn1 = document.getElementById('swpbtn1');
-    const swpbtn2 = document.getElementById('swpbtn2');
+export async function addProduk({ nama, harga , kategori}) {
+	const res = await fetch(`${API_BASE}/produk`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ nama, harga , kategori})
+	});
+	return handleResponse(res);
+}
 
-    // Tombol 1 hanya memanggil swapGrids dengan ID 'swpbtn1'
-    if (swpbtn1) {
-        swpbtn1.addEventListener('click', () => swapGrids('swpbtn1'));
-    }
-    
-    // Tombol 2 hanya memanggil swapGrids dengan ID 'swpbtn2'
-    if (swpbtn2) {
-        swpbtn2.addEventListener('click', () => swapGrids('swpbtn2'));
-    }
-});
-// Set Data
+export async function updateProduk(id, { nama, harga, kategori }) {
+	const res = await fetch(`${API_BASE}/produk/${id}`, {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ nama, harga, kategori })
+	});
+	return handleResponse(res);
+}
+
+export async function deleteProduk(id) {
+	const res = await fetch(`${API_BASE}/produk/${id}`, { method: 'DELETE' });
+	return handleResponse(res);
+}
+
+// Penjualan
+export async function getPenjualan() {
+	const res = await fetch(`${API_BASE}/penjualan`);
+	return handleResponse(res);
+}
+
+export async function addPenjualan({ produkId, jumlah }) {
+	const res = await fetch(`${API_BASE}/penjualan`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ produkId, jumlah })
+	});
+	return handleResponse(res);
+}
+
+export async function deletePenjualan(id) {
+	const res = await fetch(`${API_BASE}/penjualan/${id}`, { method: 'DELETE' });
+	return handleResponse(res);
+}
+
+// Ekonomi
+export async function getEkonomi() {
+	const res = await fetch(`${API_BASE}/ekonomi`);
+	return handleResponse(res);
+}
+
+export async function getEkonomiByBulanTahun(bulan, tahun) {
+	const res = await fetch(`${API_BASE}/ekonomi/bulan-tahun?bulan=${bulan}&tahun=${tahun}`);
+	return handleResponse(res);
+}
+
+// Export to global
+if (typeof window !== 'undefined') {
+	window.EdgeRunnerAPI = window.EdgeRunnerAPI || {};
+	Object.assign(window.EdgeRunnerAPI, {
+		getProduk,
+		addProduk,
+		updateProduk,
+		deleteProduk,
+		getPenjualan,
+		addPenjualan,
+		deletePenjualan,
+		getEkonomi,
+		getEkonomiByBulanTahun
+	});
+}
+
+// Export module
+const EdgeRunnerAPI = {
+	getProduk,
+	addProduk,
+	updateProduk,
+	deleteProduk,
+	getPenjualan,
+	addPenjualan,
+	deletePenjualan,
+	getEkonomi,
+	getEkonomiByBulanTahun
+};
+
+export default EdgeRunnerAPI;

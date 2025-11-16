@@ -1,5 +1,6 @@
 import path from "path";
 import { readJSON, writeJSON } from "../lib/jsonStore.js";
+import { updateEkonomi } from "../lib/ekonomiStore.js";
 
 const produkPath = path.resolve("data/produk.json");
 const penjualanPath = path.resolve("data/penjualan.json");
@@ -43,6 +44,9 @@ export function addPenjualan(req, res) {
     penjualan.push(newPenjualan);
     writeJSON(penjualanPath, penjualan);
 
+    // Update ekonomi.json dengan total penjualan
+    updateEkonomi(total);
+
     res.json(newPenjualan);
 }
 
@@ -51,9 +55,15 @@ export function deletePenjualan(req, res) {
     const { id } = req.params;
 
     let penjualan = readJSON(penjualanPath) || [];
+    const deletedItem = penjualan.find((p) => p.id == id);
     penjualan = penjualan.filter((p) => p.id != id);
 
     writeJSON(penjualanPath, penjualan);
+
+    // Kurangi ekonomi.json jika ada penjualan yang dihapus
+    if (deletedItem) {
+        updateEkonomi(-deletedItem.total);
+    }
 
     res.json({ sukses: true });
 }

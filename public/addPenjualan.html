@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biji</title>
+</head>
+<body>
+    <form action="" method="post">
+        <label for="namaProduk">Nama Produk:</label>
+        
+        <select name="namaProduk" id="namaProduk">
+            <!-- Produk akan dimuat disini -->
+        </select><br><br>
+
+        <label for="jumlah">Barang Terjual:</label>
+        <input type="number" id="jumlah" name="jumlah" required><br><br>
+
+        <input type="submit" value="TambahPenjualan">
+    </form>
+    <script type="module">
+        import EdgeRunnerAPI from './script.js';
+        const produk = await EdgeRunnerAPI.getProduk();
+        console.log(produk);
+        const namaProdukSelect = document.getElementById('namaProduk');
+        produk.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.nama;
+            namaProdukSelect.appendChild(option);
+        });
+        
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (e) =>{
+            e.preventDefault();
+            const produkId = document.getElementById('namaProduk').value;
+            const jumlah = parseInt(document.getElementById('jumlah').value);
+            const penjualanBaru = { produkId, jumlah };
+            try {
+                await EdgeRunnerAPI.addPenjualan(penjualanBaru);
+                form.reset();
+            } catch (error) {
+                console.error('Error menambahkan penjualan:', error);
+            }
+        })
+    </script>
+</body>
+</html>
