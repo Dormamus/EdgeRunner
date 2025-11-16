@@ -1,5 +1,6 @@
 import path from "path";
 import { readJSON, writeJSON } from "../lib/jsonStore.js";
+import fs from "fs";
 
 const produkPath = path.resolve("data/produk.json");
 
@@ -13,12 +14,33 @@ export function addProduk(req, res) {
     }
     
     const data = readJSON(produkPath) || [];
+    const produkId = Date.now();
+    
     const newProduk = {
-        id: Date.now(),
+        id: produkId,
         nama,
         harga,
-        kategori
+        kategori,
+        gambar: null // akan diisi jika ada upload
     };
+    
+    // Jika ada file yang diupload
+    if (req.file) {
+        const ext = path.extname(req.file.originalname);
+        const filename = `${produkId}${ext}`;
+        const uploadsDir = path.resolve("public/assets/produk");
+        
+        // Buat folder jika belum ada
+        if (!fs.existsSync(uploadsDir)) {
+            fs.mkdirSync(uploadsDir, { recursive: true });
+        }
+        
+        // Simpan file dengan nama = id produk
+        const filePath = path.join(uploadsDir, filename);
+        fs.writeFileSync(filePath, req.file.buffer);
+        
+        newProduk.gambar = `/assets/produk/${filename}`;
+    }
     
     data.push(newProduk);
     writeJSON(produkPath, data);
