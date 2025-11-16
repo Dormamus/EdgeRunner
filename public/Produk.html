@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk</title>
+</head>
+<body>
+    <div>
+        <div class="produkList">
+            <h2>Daftar Produk</h2>
+            <button onclick="location.href='addProduk.html'">Tambah Produk</button>
+            <ul id="produkContainer">
+                <!-- Produk akan dimuat di sini -->
+            </ul>
+            <ul id="makananContainer">
+
+            </ul>
+        </div>
+    </div>
+    <script type="module">
+        import EdgeRunnerAPI from './script.js';
+        const produk = await EdgeRunnerAPI.getProduk();
+        console.log(produk);
+        const produkContainer = document.getElementById('produkContainer');
+        produk.forEach(item => {
+            const li = document.createElement('li');
+            item.harga = Intl.NumberFormat('de-DE').format(item.harga);
+            li.textContent = `
+            ${item.nama} - Rp ${item.harga} - Kategori: ${item.kategori} - Edit | Hapus
+            `;
+            produkContainer.appendChild(li);
+
+            const makanan = document.getElementById('makananContainer');
+            if(item.kategori === "makanan"){
+                const liMakanan = document.createElement('li');
+                liMakanan.textContent = `
+                ${item.nama} - Rp ${item.harga} - Kategori: ${item.kategori} - Edit | Hapus
+                `;
+                makanan.appendChild(liMakanan);
+            }
+        });
+    </script>
+</body>
+</html>
