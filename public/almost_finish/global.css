@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+:root {
+  --color1 : rgb(2 107 93);
+  --color2 : rgba(0,0,0,0.5);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", Sans-Serif;
+  font-size: 20px;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  color: white;
+  background: rgba(5, 18, 26);
+}
+.topbar {
+  height: 70px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  padding: 0 15px;
+  top: 0;
+  position: fixed;
+  background :rgb(19,19,25);
+  z-index: 99;
+}
+.logo {
+  height: 40px;
+  width: 40px;
+  display: block;
+  border-radius: 50%;
+}
+.tleft {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.mainlayout {
+  width: 100%;
+  margin-top: 70px;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  border:solid 3px0
+}
+.sidebarc {
+  left: 0;
+  height: calc(100% - 65px);
+  width: clamp(230px, 20vw, 450px);
+  border-radius: 0 5px 5px 0;
+  padding: 15px;
+  background: rgb(19,19,25);
+  position: fixed;
+  z-index: 99;
+  border: solid 2px rgba(186,186,186,0.405);
+}
+.mainside {
+  margin-bottom: 30px;
+  height: 130px;
+}
+.otherside {
+  height: 100px;
+}
+.mainside li, .otherside li {
+  padding: 3px 0 3px 10px;
+  margin: 4px 0;
+  border: solid 2px rgba(186,186,186,0.805);
+  border-radius: 5px; 
+}
+.mainside li a, .mainside li a {
+  text-decoration:none;
+  color:white;
+}
+.sidebar li {
+  list-style: none;
+}
+.burger {
+  display: none;
+}
+.sidebar {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  flex-direction: column;
+}
+@media screen and (max-width: 1160px){
+  .sidebarc {
+    left: 0;
+    transform: translateX(-110%);
+    position: fixed;
+    z-index: 3;
+    height: 100%;
+    transition: 0.3s ease-in-out;
+    height: calc(100% - 65px);
+  }
+  .sidebarc.active {
+    transform: translateX(0);
+  }
+  .mainlayout {
+    min-height: 100%;
+  }
+  .burger {
+    height: 40px;
+    min-width: 40px;
+    border: solid 1px black;
+    position: relative;
+    display: block;
+  }
+  .burger span {
+    background: white;
+    width: 35px;
+    height: 5px;
+    border-radius: 2px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    transition: 0.19s ease-in-out;
+  }
+  .burger span:nth-child(1) {
+    top: 25%;
+    position: absolute;
+  }
+  .burger span:nth-child(3){
+    top: 75%;
+    position: absolute;
+  }
+  .burger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .burger.active span:nth-child(1) {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    opacity: 1;
+  }
+  .burger.active span:nth-child(3) {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    opacity: 1;
+  }

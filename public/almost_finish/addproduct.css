@@ -1,0 +1,81 @@
+.mainadd {
+  height: 100%;
+  width: clamp(500px, 100%, 100%);
+  margin-left: clamp(150px, 20vw, 450px);
+  display: grid;
+  grid-template-rows: 7% 53% 40%;
+  grid-template-columns: 100%;
+  grid-template-areas:
+  "g1"
+  "g2"
+  "g3"
+  ;
+  overflow: auto;
+  padding: 10px;
+  gap: 10px;
+}
+
+.judul { grid-area: g1;}
+.listproduk {grid-area: g2;}
+.output {grid-area: g3;}
+
+.grid {
+  display: flex;
+  border-radius: 15px;
+  backdrop-filter: blur(10px) saturate(150%);
+  border:solid 2px rgba(186,186,186,0.4);
+}
+.judul {
+  align-items: center;
+  padding-left: 20px;
+  width:100%;
+}
+.dropdown {
+  background: rgba(152,152,152,0.839);
+  border-radius: 4px;
+}
+.listproduk {
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+  padding: 10px;
+  width: 100%;
+}
+  .produk {
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    justify-content: space-between;
+  }
+  input[type="text"] {
+    width: 30%;
+    background: rgba(152,152,152,0.839);
+    border-radius: 5px;
+    display: flex;
+    position: relative;
+  }
+  input::placeholder {
+    color: black;
+  }
+  .centang {
+    height: 60px;
+    width: 60px;
+    border: solid 2px white;
+    top: 100%;
+    position: sticky;
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .output {
+    flex-direction: column;
+    white-space: pre-line;
+    width: 100%;
+  }
+
+@media screen and (max-width: 1150px) {
+  .mainadd {
+    margin-left: 0;
+  }
+}

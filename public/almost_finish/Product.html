@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>31 Oktober</title>
+  <link rel="stylesheet" href="product.css">
+  <link rel="stylesheet" href="global.css">
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<body>
+  <div class="topbar">
+    <div class="tleft">
+    <div class="burger" onclick="toggleSideBar()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <img class="logo" src="bege.jpg">
+    </div>
+    <h2>Product Page</h2>
+    <div></div>
+  </div>
+  <div class="mainlayout">
+    <div class="sidebarc">
+      <nav class="sidebar">
+        <ol class="mainside">
+          <li><a href="http://localhost:8158/dashb.html">Sales Dashboard</a></li>
+          <li><a href="http://localhost:8158/Product.html">Product</a></li>
+          <li><a href="http://localhost:8158/addproduct.html">Add Penjualan</a></li>
+        </ol>
+        <ol class="otherside">
+          <li><a>Dashboard</a></li>
+          <li><a>Dashboard</a></li>
+          <li><a>Dashboard</a></li>
+        </ol>
+      </nav>
+    </div>
+    <div class="mainproduct">
+      <div class="div judul">
+      <select id="kategori">
+        <option value="makanan">Makanan</option>
+        <option value="minuman">Minuman</option>
+      </select>
+        <button class="addproduk">+ Add Produk</button>
+      </div>
+      <div class="div contproduk">
+        <div id="listProduk" class="div list">
+          <div class="nameprice">
+            <div class="name">
+              <p>1. Saus putih</p>
+            </div>
+            <div class="price">
+              <p>10000/pcs</p>
+            </div>
+          </div>
+          <div class="img">
+            <img class="photo" src="bege.jpg">
+          </div>
+          <div class="edit">
+            <button class="edit1 btn">
+              Edit
+            </button>
+            <button class="remove btn">
+              Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="burger.js"></script>
+</html>
