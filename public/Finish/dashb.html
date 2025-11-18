@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EdgeRunner</title>
+  <link rel="stylesheet" href="global.css">
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<body>
+  <div class="topbar">
+    <div class="tleft">
+    <div class="burger" onclick="toggleSideBar()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <img class="logo" src="bege.jpg">
+    </div>
+    <h2>Sales Dashboard</h2>
+    <div></div>
+  </div>
+  <div class="mainlayout">
+    <div class="sidebarc">
+      <nav class="sidebar">
+        <ul class="mainside">
+          <li><a href="http://localhost:8158/dashb.html"><i id="icon" class="fi fi-rr-chart-histogram"></i>Sales Dashboard</a></li>
+          <li><a href="http://localhost:8158/addproduct.html"><i id="icon" class="fi fi-rr-shopping-cart"></i>Add Penjualan</a></li>
+          <li><a href="http://localhost:8158/Product.html"><i id="icon" class="fi fi-rr-edit"></i>Product</a></li>
+        </ul>
+        <ul class="otherside">
+          <li><a>Dashboard</a></li>
+          <li><a>Dashboard</a></li>
+          <li><a>Dashboard</a></li>
+        </ul>
+      </nav>
+    </div>
+      <div class="maingrid">
+        <div class="grid judul">
+        <h1>Toko Fariez Abdillah Manis</h1>
+        </div>
+        <div class="swpbtn swpbtn1">
+          <button class="swap" onclick="swapTop()">Swap</button>
+        </div>
+        <div class="grid g5 cviewp swaps"><canvas id="linechart"></canvas></div>
+        <div class="grid g6 hviewp swaps">
+          <div class="g6ab">
+            <div class="g6t">
+              <div><h4>List Produk Favorit</h4></div>
+            </div>
+            <div class="productc">
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+              <div class="product"><h1>Happy Tos</h1></div>
+            </div>
+          </div>
+        </div>
+        <div class="swpbtn swpbtn2">
+          <button class="swap" onclick="swapBottom()">Swap</button>
+        </div>
+        <div class="grid g7 cviewp swaps">
+          <div class="g7ab">
+            <div class="g7t">
+              <div><h4>RIWAYAT TRANSAKSI</h4></div>
+            </div>
+            <div class="riwayatc">
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+              <div class="riwayat"><h1>Riwayat Transaksi</h1></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid g8 hviewp swaps"><canvas id="linechart2"</canvas></div>
+      </div>
+  </div>
+</body>
+<script src="swap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="chart-fix.js"></script>
+<script src="burger.js"></script>
+</html>
