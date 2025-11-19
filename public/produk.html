@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'main-bg': '#1e201e',
+                        'element-bg': '#2a2c2a',
+                        'text-main': '#f0f0f0',
+                        'text-secondary': '#b0b0b0',
+                        'accent': '#697565'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-main-bg text-text-main min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-element-bg p-4 flex items-center justify-between">
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden">
+            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+        
+        <!-- Desktop User Icon -->
+        <div class="hidden md:block w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+            <span class="text-white">U</span>
+        </div>
+        
+        <h1 class="text-xl font-bold">Produk</h1>
+        
+        <!-- Header Right (empty) -->
+        <div class="w-6"></div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <nav id="mobile-menu" class="hidden md:hidden bg-element-bg p-4 border-t border-accent">
+        <ul class="space-y-2">
+            <li><a href="#" class="block py-2 font-bold text-accent">Dashboard</a></li>
+            <li><a href="#" class="block py-2">Produk</a></li>
+            <li><a href="#" class="block py-2">Pendapatan</a></li>
+        </ul>
+    </nav>
+
+    <!-- Desktop Sidebar -->
+    <aside class="hidden md:block w-64 bg-element-bg h-screen fixed top-0 left-0 border-r border-accent">
+        <div class="p-4">
+            <div class="w-10 h-10 rounded-full bg-accent mb-6 flex items-center justify-center">
+                <span class="text-white">U</span>
+            </div>
+            <ul class="space-y-4">
+                <li><a href="#" class="block py-2">Dashboard</a></li>
+                <li><a href="#" class="block py-2 font-bold text-accent">Produk</a></li>
+                <li><a href="#" class="block py-2">Pendapatan</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="md:ml-64 p-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">List Produk</h2>
+            <button class="bg-element-bg text-accent px-4 py-2 rounded-full flex items-center gap-2 hover:bg-accent hover:text-white transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                Tambah Produk
+            </button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+            <!-- Contoh Produk 1 -->
+            <div class="bg-element-bg rounded-xl overflow-hidden shadow-lg">
+                <div class="h-48 bg-gray-700 flex items-center justify-center">
+                    <span class="text-text-secondary">Gambar</span>
+                </div>
+                <div class="p-4 border-t border-accent">
+                    <h3 class="font-bold text-lg">Kuda Liar</h3>
+                    <p class="text-sm text-text-secondary mb-3">Rp. 19.000.000</p>
+                    <div class="flex justify-between">
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-5.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995 5.01L5 12m0 0L4.106 2H5.984a2 2 0 011.995 5.01L8 12m0 0l.867 12.142A2 2 0 0110.862 21H19.138a2 2 0 011.995 5.01L22 12m-2 0h-2M12 12h.01M12 12H9M12 12h.01"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contoh Produk 2 -->
+            <div class="bg-element-bg rounded-xl overflow-hidden shadow-lg">
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                    <span class="text-text-secondary">Gambar</span>
+                </div>
+                <div class="p-4 border-t border-accent">
+                    <h3 class="font-bold text-lg">Kuda Jinak</h3>
+                    <p class="text-sm text-text-secondary mb-3">Rp. 19.000.000</p>
+                    <div class="flex justify-between">
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-5.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995 5.01L5 12m0 0L4.106 2H5.984a2 2 0 011.995 5.01L8 12m0 0l.867 12.142A2 2 0 0110.862 21H19.138a2 2 0 011.995 5.01L22 12m-2 0h-2M12 12h.01M12 12H9M12 12h.01"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contoh Produk 3 -->
+            <div class="bg-element-bg rounded-xl overflow-hidden shadow-lg">
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                    <span class="text-text-secondary">Gambar</span>
+                </div>
+                <div class="p-4 border-t border-accent">
+                    <h3 class="font-bold text-lg">Indomie</h3>
+                    <p class="text-sm text-text-secondary mb-3">Rp. 19.000.000</p>
+                    <div class="flex justify-between">
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-5.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995 5.01L5 12m0 0L4.106 2H5.984a2 2 0 011.995 5.01L8 12m0 0l.867 12.142A2 2 0 0110.862 21H19.138a2 2 0 011.995 5.01L22 12m-2 0h-2M12 12h.01M12 12H9M12 12h.01"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contoh Produk 4 -->
+            <div class="bg-element-bg rounded-xl overflow-hidden shadow-lg">
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                    <span class="text-text-secondary">Gambar</span>
+                </div>
+                <div class="p-4 border-t border-accent">
+                    <h3 class="font-bold text-lg">Aqua</h3>
+                    <p class="text-sm text-text-secondary mb-3">Rp. 19.000.000</p>
+                    <div class="flex justify-between">
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-5.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995 5.01L5 12m0 0L4.106 2H5.984a2 2 0 011.995 5.01L8 12m0 0l.867 12.142A2 2 0 0110.862 21H19.138a2 2 0 011.995 5.01L22 12m-2 0h-2M12 12h.01M12 12H9M12 12h.01"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contoh Produk 5 -->
+            <div class="bg-element-bg rounded-xl overflow-hidden shadow-lg">
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                    <span class="text-text-secondary">Gambar</span>
+                </div>
+                <div class="p-4 border-t border-accent">
+                    <h3 class="font-bold text-lg">Biji Kuda</h3>
+                    <p class="text-sm text-text-secondary mb-3">Rp. 19.000.000</p>
+                    <div class="flex justify-between">
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-5.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995 5.01L5 12m0 0L4.106 2H5.984a2 2 0 011.995 5.01L8 12m0 0l.867 12.142A2 2 0 0110.862 21H19.138a2 2 0 011.995 5.01L22 12m-2 0h-2M12 12h.01M12 12H9M12 12h.01"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contoh Produk 6 -->
+            <div class="bg-element-bg rounded-xl overflow-hidden shadow-lg">
+                <div class="w-full h-48 bg-gray-700 flex items-center justify-center">
+                    <span class="text-text-secondary">Gambar</span>
+                </div>
+                <div class="p-4 border-t border-accent">
+                    <h3 class="font-bold text-lg">Nigga Bakar</h3>
+                    <p class="text-sm text-text-secondary mb-3">Rp. 19.000.000</p>
+                    <div class="flex justify-between">
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-5.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </button>
+                        <button class="text-accent hover:text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995 5.01L5 12m0 0L4.106 2H5.984a2 2 0 011.995 5.01L8 12m0 0l.867 12.142A2 2 0 0110.862 21H19.138a2 2 0 011.995 5.01L22 12m-2 0h-2M12 12h.01M12 12H9M12 12h.01"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination / Load More (opsional) -->
+        <div class="mt-8 flex justify-center">
+            <button class="bg-element-bg text-accent px-6 py-2 rounded-lg hover:bg-accent hover:text-white transition">
+                Muat Lebih Banyak
+            </button>
+        </div>
+    </main>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
