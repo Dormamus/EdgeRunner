@@ -310,7 +310,7 @@
             confirmDeleteBtn.classList.add('opacity-60');
             try {
                 await EdgeRunnerAPI.deletePenjualan(deleteTarget);
-                alert('Penjualan berhasil dihapus (ekonomi.json juga diperbarui)');
+                alert('Penjualan berhasil dihapus');
                 await loadPenjualanHistory();
             } catch (err) {
                 console.error('Gagal menghapus penjualan', err);

@@ -117,7 +117,7 @@
                     </svg>
                 </button>
 
-                <h3 class="text-lg font-bold mb-4">Tambah Produk Baru</h3>
+                <h3 id="modal-title" class="text-lg font-bold mb-4">Tambah Produk Baru</h3>
                 <div class="w-full mx-auto flex">
                     <img id="image-preview" src="" alt="Preview" class="w-48 h-48 object-cover rounded mb-4 mx-auto hidden">
                 </div>
@@ -371,6 +371,9 @@
                 apiImagePreview.src = '';
                 apiImagePreview.classList.add('hidden');
             }
+            // Set modal title for edit mode
+            const modalTitleEl = document.getElementById('modal-title');
+            if (modalTitleEl) modalTitleEl.textContent = 'Edit Produk';
 
             // open modal
             apiModal.classList.remove('hidden');
@@ -404,6 +407,8 @@
         apiAddProductForm.reset();
         apiImagePreview.src = '';
         apiImagePreview.classList.add('hidden');
+        const modalTitleEl = document.getElementById('modal-title');
+        if (modalTitleEl) modalTitleEl.textContent = 'Tambah Produk Baru';
     });
 
     // close modal reset currentEditId
@@ -412,6 +417,8 @@
         apiAddProductForm.reset();
         apiImagePreview.src = '';
         apiImagePreview.classList.add('hidden');
+        const modalTitleEl = document.getElementById('modal-title');
+        if (modalTitleEl) modalTitleEl.textContent = 'Tambah Produk Baru';
     }));
 
     apiModalOverlay.addEventListener('click', () => {
@@ -419,6 +426,8 @@
         apiAddProductForm.reset();
         apiImagePreview.src = '';
         apiImagePreview.classList.add('hidden');
+        const modalTitleEl = document.getElementById('modal-title');
+        if (modalTitleEl) modalTitleEl.textContent = 'Tambah Produk Baru';
     });
 
     apiAddProductForm.addEventListener('submit', async (e) => {
@@ -429,8 +438,12 @@
 
         try {
             if (currentEditId) {
-                // Update (PUT) does not support file upload in current backend route
-                await EdgeRunnerAPI.updateProduk(currentEditId, { nama, harga });
+                // If a new image file was selected, pass it so koneksi.js will send FormData
+                if (gambar) {
+                    await EdgeRunnerAPI.updateProduk(currentEditId, { nama, harga, gambar });
+                } else {
+                    await EdgeRunnerAPI.updateProduk(currentEditId, { nama, harga });
+                }
             } else {
                 await EdgeRunnerAPI.addProduk({ nama, harga, gambar });
             }
@@ -445,6 +458,8 @@
             apiImagePreview.src = '';
             apiImagePreview.classList.add('hidden');
             currentEditId = null;
+            const modalTitleEl = document.getElementById('modal-title');
+            if (modalTitleEl) modalTitleEl.textContent = 'Tambah Produk Baru';
             await loadProducts();
         } catch (err) {
             console.error('Gagal menyimpan produk', err);

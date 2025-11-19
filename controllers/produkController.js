@@ -66,6 +66,36 @@ export function updateProduk(req, res) {
     if (nama) data[index].nama = nama;
     if (harga) data[index].harga = harga;
 
+    // Jika ada file baru yang diupload, simpan dan hapus file lama
+    if (req.file) {
+        try {
+            const ext = path.extname(req.file.originalname);
+            const filename = `${id}${ext}`;
+            const uploadsDir = path.resolve('public/assets/produk');
+            if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+
+            const filePath = path.join(uploadsDir, filename);
+            // Tulis file baru
+            fs.writeFileSync(filePath, req.file.buffer);
+
+            // Hapus file lama jika berbeda
+            const oldGambar = data[index].gambar;
+            const newGambarRel = `/assets/produk/${filename}`;
+            if (oldGambar && oldGambar !== newGambarRel) {
+                try {
+                    const oldPath = path.resolve('public' + oldGambar);
+                    if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+                } catch (e) {
+                    console.error('Gagal menghapus gambar lama:', e);
+                }
+            }
+
+            data[index].gambar = newGambarRel;
+        } catch (e) {
+            console.error('Gagal menyimpan file upload pada updateProduk:', e);
+        }
+    }
+
     writeJSON(produkPath, data);
     res.json(data[index]);
 }
@@ -75,9 +105,28 @@ export function deleteProduk(req, res) {
     const { id } = req.params;
 
     let data = readJSON(produkPath) || [];
-    const newData = data.filter((p) => p.id != id);
+    // Temukan produk yang akan dihapus
+    const produkToDelete = data.find((p) => String(p.id) === String(id));
 
+    // Filter data untuk menghapus produk
+    const newData = data.filter((p) => String(p.id) !== String(id));
+
+    // Tulis data baru
     writeJSON(produkPath, newData);
+
+    // Hapus file gambar jika ada
+    if (produkToDelete && produkToDelete.gambar) {
+        try {
+            // gambar disimpan relatif terhadap folder `public`, contoh: /assets/produk/123.png
+            const imagePath = path.resolve('public' + produkToDelete.gambar);
+            if (fs.existsSync(imagePath)) {
+                fs.unlinkSync(imagePath);
+            }
+        } catch (err) {
+            console.error('Gagal menghapus file gambar produk:', err);
+            // jangan gagalkan response utama karena masalah penghapusan file
+        }
+    }
 
     res.json({ sukses: true });
 }

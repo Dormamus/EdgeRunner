@@ -48,7 +48,21 @@ export async function addProduk({ nama, harga , kategori}) {
 	return handleResponse(res);
 }
 
-export async function updateProduk(id, { nama, harga, kategori }) {
+export async function updateProduk(id, { nama, harga, gambar }) {
+	// If caller provided a File under `gambar`, send multipart/form-data
+	if (arguments[1] && arguments[1].gambar instanceof File) {
+		const formData = new FormData();
+		if (nama !== undefined) formData.append('nama', nama);
+		if (harga !== undefined) formData.append('harga', harga);
+		formData.append('gambar', gambar);
+
+		const res = await fetch(`${API_BASE}/produk/${id}`, {
+			method: 'PUT',
+			body: formData
+		});
+		return handleResponse(res);
+	}
+
 	const res = await fetch(`${API_BASE}/produk/${id}`, {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json' },
