@@ -135,14 +135,14 @@
         <section class="md:hidden space-y-6 mb-4">
             <div class="bg-element-bg p-4 rounded-xl">
                 <h2 class="text-lg font-bold mb-2">Pendapatan Hari Ini</h2>
-                <p class="text-2xl font-bold">RP 67.000</p>
-                <p class="text-sm text-text-secondary">Naik RP 3.400 dari kemarin</p>
+                <p class="text-2xl font-bold" id="mobile-pendapatan-hari-ini">RP 67.000</p>
+                <p class="text-sm text-text-secondary" id="mobile-comparison-today">Naik RP 3.400 dari kemarin</p>
             </div>
             
             <div class="bg-element-bg p-4 rounded-xl">
                 <h2 class="text-lg font-bold mb-2">Pendapatan Bulan Ini</h2>
-                <p class="text-2xl font-bold">RP 340.500</p>
-                <p class="text-sm text-text-secondary">Naik RP 3.400 dari bulan lalu</p>
+                <p class="text-2xl font-bold" id="mobile-pendapatan-bulan-ini">RP 340.500</p>
+                <p class="text-sm text-text-secondary" id="mobile-comparison-month">Naik RP 3.400 dari bulan lalu</p>
             </div>
         </section>
 
@@ -364,12 +364,40 @@
             }
 
             // Update UI - Mobile Daily & Monthly
-            const mobileDailySection = document.querySelector('section.md\\:hidden.space-y-6');
-            if (mobileDailySection) {
-                const dailyMonthlyCards = mobileDailySection.querySelectorAll('.text-2xl.font-bold');
-                if (dailyMonthlyCards.length >= 2) {
-                    dailyMonthlyCards[0].textContent = formatRupiah(pendapatanHariIni);
-                    dailyMonthlyCards[1].textContent = formatRupiah(pendapatanBulanIni);
+            const mobileDailyEl = document.getElementById('mobile-pendapatan-hari-ini');
+            const mobileMonthlyEl = document.getElementById('mobile-pendapatan-bulan-ini');
+            if (mobileDailyEl) mobileDailyEl.textContent = formatRupiah(pendapatanHariIni);
+            if (mobileMonthlyEl) mobileMonthlyEl.textContent = formatRupiah(pendapatanBulanIni);
+
+            // Update mobile comparison today
+            const mobileComparisonToday = document.getElementById('mobile-comparison-today');
+            if (mobileComparisonToday) {
+                const selisih = pendapatanHariIni - pendapatanKemarin;
+                if (selisih > 0) {
+                    mobileComparisonToday.textContent = `Naik ${formatRupiah(selisih)} dari kemarin`;
+                    mobileComparisonToday.classList.remove('text-red-500');
+                } else if (selisih < 0) {
+                    mobileComparisonToday.textContent = `Turun ${formatRupiah(Math.abs(selisih))} dari kemarin`;
+                    mobileComparisonToday.classList.add('text-red-500');
+                } else {
+                    mobileComparisonToday.textContent = 'Sama dengan kemarin';
+                    mobileComparisonToday.classList.remove('text-red-500');
+                }
+            }
+
+            // Update mobile comparison month
+            const mobileComparisonMonth = document.getElementById('mobile-comparison-month');
+            if (mobileComparisonMonth) {
+                const selisihBulan = pendapatanBulanIni - pendapatanBulanLalu;
+                if (selisihBulan > 0) {
+                    mobileComparisonMonth.textContent = `Naik ${formatRupiah(selisihBulan)} dari bulan lalu`;
+                    mobileComparisonMonth.classList.remove('text-red-500');
+                } else if (selisihBulan < 0) {
+                    mobileComparisonMonth.textContent = `Turun ${formatRupiah(Math.abs(selisihBulan))} dari bulan lalu`;
+                    mobileComparisonMonth.classList.add('text-red-500');
+                } else {
+                    mobileComparisonMonth.textContent = 'Sama dengan bulan lalu';
+                    mobileComparisonMonth.classList.remove('text-red-500');
                 }
             }
 
