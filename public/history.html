@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Penjualan</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'main-bg': '#1e201e',
+                        'element-bg': '#2a2c2a',
+                        'text-main': '#f0f0f0',
+                        'text-secondary': '#b0b0b0',
+                        'accent': '#697565'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Animasi slide-in/out */
+        .slide-in {
+            transition: transform 0.3s ease-out;
+        }
+        .slide-out {
+            transition: transform 0.3s ease-in;
+        }
+        .overlay {
+            transition: opacity 0.3s ease;
+        }
+        .overlay-blur {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="bg-main-bg text-text-main min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-element-bg p-4 flex items-center justify-between">
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden">
+            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+        
+        <!-- Desktop User Icon -->
+        <div class="hidden md:block w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+            <span class="text-white">U</span>
+        </div>
+        
+        <h1 class="text-xl font-bold">Riwayat Penjualan</h1>
+        
+        <!-- Header Right (empty) -->
+        <div class="w-6"></div>
+    </header>
+
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 overlay-blur"></div>
+
+    <!-- Mobile Navigation Menu -->
+    <nav id="mobile-menu" class="fixed top-0 left-0 w-64 h-full bg-element-bg z-50 transform -translate-x-full slide-out">
+        <div class="p-4">
+            <div class="w-10 h-10 rounded-full bg-accent mb-6 flex items-center justify-center">
+                <span class="text-white">U</span>
+            </div>
+            <ul class="space-y-4">
+                <li><a href="index.html" class="block py-2">Dashboard</a></li>
+                <li><a href="produk.html" class="block py-2">Produk</a></li>
+                <li><a href="penjualan.html" class="block py-2">Pendapatan</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Desktop Sidebar -->
+    <aside class="hidden md:block w-64 bg-element-bg h-screen fixed top-0 left-0 border-r border-accent">
+        <div class="p-4">
+            <div class="w-10 h-10 rounded-full bg-accent mb-6 flex items-center justify-center">
+                <span class="text-white">U</span>
+            </div>
+            <ul class="space-y-4">
+                <li><a href="index.html" class="block py-2">Dashboard</a></li>
+                <li><a href="produk.html" class="block py-2">Produk</a></li>
+                <li><a href="penjualan.html" class="block py-2">Pendapatan</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="md:ml-64 p-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Daftar Penjualan</h2>
+        </div>
+
+        <!-- Sales History Table -->
+        <div class="bg-element-bg rounded-xl overflow-hidden shadow-lg">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-accent bg-opacity-50">
+                            <th class="text-left py-3 px-4">No</th>
+                            <th class="text-left py-3 px-4">Nama Produk</th>
+                            <th class="text-left py-3 px-4">Jumlah</th>
+                            <th class="text-left py-3 px-4">Harga Satuan</th>
+                            <th class="text-left py-3 px-4">Total</th>
+                            <th class="text-left py-3 px-4">Tanggal</th>
+                            <th class="text-center py-3 px-4">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-table-body">
+                        <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Empty State (jika tidak ada data) -->
+        <div id="empty-state" class="text-center py-12 hidden">
+            <svg class="w-16 h-16 text-text-secondary mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <p class="text-text-secondary text-lg">Belum ada data penjualan</p>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div id="delete-modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 opacity-0 hidden z-50 overlay-blur transition-opacity"></div>
+
+        <div id="delete-modal" class="fixed inset-0 hidden z-[60] items-center justify-center px-4">
+            <div class="bg-element-bg w-full max-w-sm rounded-xl shadow-lg p-6 relative">
+                <h3 class="text-lg font-bold mb-3">Hapus Penjualan</h3>
+                <p class="text-text-secondary mb-6">Apakah Anda yakin ingin menghapus penjualan ini? Tindakan ini tidak dapat dibatalkan.</p>
+                <div class="flex justify-end gap-2">
+                    <button type="button" id="cancel-delete" class="border border-accent text-accent px-4 py-2 rounded-lg hover:bg-accent hover:text-white transition">Batal</button>
+                    <button type="button" id="confirm-delete" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">Hapus</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // Sample data penjualan - nanti akan diganti dengan data dari backend
+        const salesData = [
+            {
+                id: 1,
+                nama: 'Kuda Liar',
+                jumlah: 2,
+                hargaSatuan: 19000000,
+                tanggal: '2025-11-18'
+            },
+            {
+                id: 2,
+                nama: 'Indomie',
+                jumlah: 10,
+                hargaSatuan: 3000,
+                tanggal: '2025-11-18'
+            },
+            {
+                id: 3,
+                nama: 'Aqua',
+                jumlah: 5,
+                hargaSatuan: 5000,
+                tanggal: '2025-11-17'
+            },
+            {
+                id: 4,
+                nama: 'Biji Kuda',
+                jumlah: 20,
+                hargaSatuan: 50000,
+                tanggal: '2025-11-17'
+            }
+        ];
+
+        let deleteTarget = null;
+
+        const tableBody = document.getElementById('sales-table-body');
+        const emptyState = document.getElementById('empty-state');
+        const deleteModal = document.getElementById('delete-modal');
+        const deleteModalOverlay = document.getElementById('delete-modal-overlay');
+        const cancelDeleteBtn = document.getElementById('cancel-delete');
+        const confirmDeleteBtn = document.getElementById('confirm-delete');
+
+        // Mobile Menu Logic
+        const mobileMenu = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.getElementById('mobile-menu-button');
+
+        menuButton.addEventListener('click', function() {
+            if (mobileMenu.classList.contains('-translate-x-full')) {
+                mobileMenu.classList.remove('-translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+                mobileMenu.classList.remove('slide-out');
+                mobileMenu.classList.add('slide-in');
+
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.remove('opacity-0');
+                    overlay.classList.add('opacity-100');
+                }, 10);
+
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('-translate-x-full');
+                mobileMenu.classList.remove('slide-in');
+                mobileMenu.classList.add('slide-out');
+
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }, 300);
+            }
+        });
+
+        overlay.addEventListener('click', function() {
+            mobileMenu.classList.remove('translate-x-0');
+            mobileMenu.classList.add('-translate-x-full');
+            mobileMenu.classList.remove('slide-in');
+            mobileMenu.classList.add('slide-out');
+
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0');
+
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        });
+
+        // Render sales table
+        function renderTable() {
+            if (salesData.length === 0) {
+                tableBody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            tableBody.innerHTML = salesData.map((item, index) => `
+                <tr class="border-b border-accent hover:bg-opacity-50 transition">
+                    <td class="py-3 px-4">${index + 1}</td>
+                    <td class="py-3 px-4">${item.nama}</td>
+                    <td class="py-3 px-4">${item.jumlah}</td>
+                    <td class="py-3 px-4">Rp ${item.hargaSatuan.toLocaleString('id-ID')}</td>
+                    <td class="py-3 px-4 font-bold">Rp ${(item.jumlah * item.hargaSatuan).toLocaleString('id-ID')}</td>
+                    <td class="py-3 px-4">${new Date(item.tanggal).toLocaleDateString('id-ID')}</td>
+                    <td class="py-3 px-4 text-center">
+                        <button class="text-red-500 hover:text-red-700 delete-btn" data-id="${item.id}">
+                            <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Attach delete button listeners
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => openDeleteModal(parseInt(btn.dataset.id)));
+            });
+        }
+
+        function openDeleteModal(id) {
+            deleteTarget = id;
+            deleteModal.classList.remove('hidden');
+            deleteModal.classList.add('flex');
+            deleteModalOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                deleteModalOverlay.classList.remove('opacity-0');
+                deleteModalOverlay.classList.add('opacity-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDeleteModal() {
+            deleteModal.classList.remove('flex');
+            deleteModal.classList.add('hidden');
+            deleteModalOverlay.classList.remove('opacity-100');
+            deleteModalOverlay.classList.add('opacity-0');
+            setTimeout(() => {
+                deleteModalOverlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 200);
+            deleteTarget = null;
+        }
+
+        cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+        deleteModalOverlay.addEventListener('click', closeDeleteModal);
+
+        confirmDeleteBtn.addEventListener('click', () => {
+            if (deleteTarget !== null) {
+                // Remove the item from array
+                const index = salesData.findIndex(item => item.id === deleteTarget);
+                if (index > -1) {
+                    salesData.splice(index, 1);
+                    // TODO: Send delete request to backend
+                    console.log('Deleted sale with id:', deleteTarget);
+                }
+                closeDeleteModal();
+                renderTable();
+            }
+        });
+
+        // Initial render
+        renderTable();
+    </script>
+</body>
+</html>
