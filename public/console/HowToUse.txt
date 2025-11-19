@@ -1,0 +1,68 @@
+##Lihat
+EdgeRunnerAPI.getProduk().then(console.log).catch(console.error);
+##Tambah
+EdgeRunnerAPI.addProduk({ nama: 'Pensil', harga: 2000 })
+  .then(r => console.log('Tambah:', r))
+  .catch(console.error);
+
+##Update
+EdgeRunnerAPI.updateProduk(12345, { nama: 'Pensil HB', harga: 2500 })
+  .then(console.log)
+  .catch(console.error);
+##Hapus
+EdgeRunnerAPI.deleteProduk(12345)
+  .then(console.log)
+  .catch(console.error);
+
+
+##Lihat
+EdgeRunnerAPI.getPenjualan().then(console.log).catch(console.error);
+##Tambah
+EdgeRunnerAPI.addPenjualan({ produkId: 12345, jumlah: 3 })
+  .then(console.log)
+  .catch(console.error);
+##Hapus
+EdgeRunnerAPI.deletePenjualan(1672531200000)
+  .then(console.log)
+  .catch(console.error);
+
+
+##
+const ps = await EdgeRunnerAPI.getProduk();
+console.log(ps);
+
+##How
+import EdgeRunnerAPI from '/console/script.js';
+
+// lalu pakai
+const produk = await EdgeRunnerAPI.getProduk();
+console.log(produk);
+// Atau
+import { getProduk, addProduk } from '/console/script.js';
+const data = await getProduk();
+
+// Dengan file upload
+const fileInput = document.getElementById('gambar');
+const file = fileInput.files[0];
+await EdgeRunnerAPI.addProduk({
+    nama: 'Kopi Arabika',
+    harga: 50000,
+    kategori: 'minuman',
+    gambar: file
+});
+
+
+
+// Lihat semua ekonomi
+await EdgeRunnerAPI.getEkonomi();
+
+// Lihat ekonomi bulan November 2025
+await EdgeRunnerAPI.getEkonomiByBulanTahun(11, 2025);
+
+// Tambah penjualan (otomatis update ekonomi.json)
+await EdgeRunnerAPI.addPenjualan({ produkId: 123, jumlah: 5 });
+// ekonomi.json otomatis update dengan total penjualan
+
+// Hapus penjualan (otomatis kurangi dari ekonomi)
+await EdgeRunnerAPI.deletePenjualan(1700000000000);
+// ekonomi.json otomatis berkurang sesuai total yang dihapus
