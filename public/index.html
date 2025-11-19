@@ -95,48 +95,44 @@
         <section class="md:hidden mb-6">
             <h2 class="text-lg font-bold mb-2">Total Pendapatan</h2>
             <div class="bg-element-bg p-4 rounded-xl">
-                <p class="text-2xl font-bold">RP 6.906.700</p>
+                <p class="text-2xl font-bold mb-3">RP 6.906.700</p>
+                <a href="history.html" class="w-full bg-accent text-white rounded-lg py-2 flex justify-center items-center text-sm hover:opacity-90 transition">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Riwayat Transaksi
+                </a>
             </div>
-        </section>
-
-        <!-- Mobile: Riwayat Transaksi -->
-        <section class="md:hidden mb-6">
-            <a href="history.html" class="w-full bg-element-bg border-2 border-accent rounded-xl p-3 flex justify-between items-center">
-                <span>Riwayat Transaksi</span>
-                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </a>
         </section>
 
         <!-- Desktop: Summary Cards -->
-        <section class="hidden md:grid grid-cols-3 gap-6 mb-8">
+        <section class="hidden md:grid grid-cols-3 gap-6 mb-6">
             <div class="bg-element-bg p-5 rounded-xl">
                 <h2 class="text-lg font-bold mb-3">Total Pendapatan</h2>
-                <p class="text-2xl font-bold">RP 6.340.500</p>
-            </div>
-            
-            <div class="bg-element-bg p-5 rounded-xl">
-                <h2 class="text-lg font-bold mb-3">Pendapatan Hari Ini</h2>
-                <p class="text-2xl font-bold">RP 67.000</p>
-                <p class="text-sm text-text-secondary mt-1">Naik RP 3.400 dari kemarin</p>
-            </div>
-            
-            <div class="bg-element-bg p-5 rounded-xl">
-                <h2 class="text-lg font-bold mb-3">Pendapatan Bulan Ini</h2>
-                <p class="text-2xl font-bold">RP 340.500</p>
-                <p class="text-sm text-text-secondary mt-1">Naik RP 3.400 dari bulan lalu</p>
-                <a href="history.html" class="mt-3 flex items-center text-accent border border-accent rounded-lg px-3 py-1.5 text-sm hover:bg-accent hover:text-white transition">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <p class="text-2xl font-bold mb-4">RP 6.340.500</p>
+                <a href="history.html" class="w-full flex items-center justify-center text-accent border border-accent rounded-lg px-3 py-2 text-sm hover:bg-accent hover:text-white transition">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     History Penjualan
                 </a>
             </div>
+            
+            <div class="bg-element-bg p-5 rounded-xl">
+                <h2 class="text-lg font-bold mb-3">Pendapatan Hari Ini</h2>
+                <p class="text-2xl font-bold">RP 67.000</p>
+                <p class="text-sm text-text-secondary mt-1"><span id="comparison-today">Naik RP 3.400 dari kemarin</span></p>
+            </div>
+            
+            <div class="bg-element-bg p-5 rounded-xl">
+                <h2 class="text-lg font-bold mb-3">Pendapatan Bulan Ini</h2>
+                <p class="text-2xl font-bold">RP 340.500</p>
+                <p class="text-sm text-text-secondary mt-1"><span id="comparison-month">Naik RP 3.400 dari bulan lalu</span></p>
+            </div>
         </section>
 
         <!-- Mobile: Daily & Monthly Income -->
-        <section class="md:hidden space-y-6 mb-8">
+        <section class="md:hidden space-y-6 mb-4">
             <div class="bg-element-bg p-4 rounded-xl">
                 <h2 class="text-lg font-bold mb-2">Pendapatan Hari Ini</h2>
                 <p class="text-2xl font-bold">RP 67.000</p>
@@ -151,7 +147,7 @@
         </section>
 
         <!-- Chart Section -->
-        <section class="hidden md:grid md:grid-cols-2 gap-6 mb-8">
+        <section class="hidden md:grid md:grid-cols-2 gap-6 mb-2">
             <!-- Chart Card -->
             <div class="bg-element-bg p-5 rounded-xl">
                 <h2 class="text-lg font-bold mb-3">Statistik Pendapatan Tahun Ini</h2>
@@ -163,43 +159,19 @@
             <!-- Top Products Card -->
             <div class="bg-element-bg p-5 rounded-xl">
                 <h2 class="text-lg font-bold mb-3">Produk Terlaris</h2>
-                <div class="overflow-x-auto h-96">
+                <div class="h-64 overflow-y-auto" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <style>
+                        div::-webkit-scrollbar { display: none; }
+                    </style>
                     <table class="w-full">
-                        <thead>
+                        <thead class="sticky top-0 bg-element-bg">
                             <tr class="border-b border-accent">
                                 <th class="text-left py-2">Nama Produk</th>
                                 <th class="text-right py-2">Jumlah</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-b border-accent">
-                                <td class="py-3">Biji Kuda Liar</td>
-                                <td class="text-right">69</td>
-                            </tr>
-                            <tr class="border-b border-accent">
-                                <td class="py-3">Biji Kuda</td>
-                                <td class="text-right">67</td>
-                            </tr>
-                            <tr class="border-b border-accent">
-                                <td class="py-3">Susu Sapi</td>
-                                <td class="text-right">34</td>
-                            </tr>
-                            <tr class="border-b border-accent">
-                                <td class="py-3">Kuda Jinak</td>
-                                <td class="text-right">24</td>
-                            </tr>
-                            <tr class="border-b border-accent">
-                                <td class="py-3">Susu Kuda Liar</td>
-                                <td class="text-right">18</td>
-                            </tr>
-                            <tr class="border-b border-accent">
-                                <td class="py-3">Nigga Bakar</td>
-                                <td class="text-right">13</td>
-                            </tr>
-                            <tr>
-                                <td class="py-3">Mie Goreng</td>
-                                <td class="text-right">7</td>
-                            </tr>
+                            <!-- Data masuk sini -->
                         </tbody>
                     </table>
                 </div>
@@ -220,36 +192,22 @@
         <section class="md:hidden">
             <h2 class="text-lg font-bold mb-2">Produk Terlaris</h2>
             <div class="bg-element-bg p-4 rounded-xl">
-                <table class="w-full">
-                    <thead>
-                        <tr class="border-b border-accent">
-                            <th class="text-left py-2">Nama Produk</th>
-                            <th class="text-right py-2">Jumlah</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-accent">
-                            <td class="py-3">Biji kuda liar</td>
-                            <td class="text-right">69</td>
-                        </tr>
-                        <tr class="border-b border-accent">
-                            <td class="py-3">Kuda Jinak</td>
-                            <td class="text-right">67</td>
-                        </tr>
-                        <tr class="border-b border-accent">
-                            <td class="py-3">Biji-bijian</td>
-                            <td class="text-right">34</td>
-                        </tr>
-                        <tr class="border-b border-accent">
-                            <td class="py-3">Kuda liar</td>
-                            <td class="text-right">18</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3">Biji kuda jinak</td>
-                            <td class="text-right">6</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="h-64 overflow-y-auto" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    <style>
+                        div::-webkit-scrollbar { display: none; }
+                    </style>
+                    <table class="w-full">
+                        <thead class="sticky top-0 bg-element-bg">
+                            <tr class="border-b border-accent">
+                                <th class="text-left py-2">Nama Produk</th>
+                                <th class="text-right py-2">Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data masuk sini -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     </main>
@@ -331,14 +289,33 @@
             const bulanIni = now.getMonth() + 1;
             const tahunIni = now.getFullYear();
 
+            // Calculate yesterday
+            const hariKemarin = new Date(now);
+            hariKemarin.setDate(hariKemarin.getDate() - 1);
+            const tglKemarin = hariKemarin.getDate();
+            const blnKemarin = hariKemarin.getMonth() + 1;
+            const thnKemarin = hariKemarin.getFullYear();
+
+            // Calculate last month
+            const lastMonth = new Date(tahunIni, bulanIni - 2, 1);
+            const bulanLalu = lastMonth.getMonth() + 1;
+            const tahunLalu = lastMonth.getFullYear();
+
             // Calculate totals
             const totalPendapatan = (penjualanData || []).reduce((sum, p) => sum + (Number(p.total) || 0), 0);
             const pendapatanHariIni = (penjualanData || [])
                 .filter(p => p.tanggal === hariIni && p.bulan === bulanIni && p.tahun === tahunIni)
                 .reduce((sum, p) => sum + (Number(p.total) || 0), 0);
             
+            const pendapatanKemarin = (penjualanData || [])
+                .filter(p => p.tanggal === tglKemarin && p.bulan === blnKemarin && p.tahun === thnKemarin)
+                .reduce((sum, p) => sum + (Number(p.total) || 0), 0);
+
             const ekonomiBulanIni = (ekonomiData || []).find(e => e.bulan === bulanIni && e.tahun === tahunIni);
             const pendapatanBulanIni = ekonomiBulanIni ? Number(ekonomiBulanIni.totalPendapatan) : 0;
+
+            const ekonomiBulanLalu = (ekonomiData || []).find(e => e.bulan === bulanLalu && e.tahun === tahunLalu);
+            const pendapatanBulanLalu = ekonomiBulanLalu ? Number(ekonomiBulanLalu.totalPendapatan) : 0;
 
             // Update UI - Mobile Total Saldo
             const mobileSaldoEls = document.querySelectorAll('.md\\:hidden .text-2xl.font-bold');
@@ -354,6 +331,35 @@
                     summaryCards[0].textContent = formatRupiah(totalPendapatan);
                     summaryCards[1].textContent = formatRupiah(pendapatanHariIni);
                     summaryCards[2].textContent = formatRupiah(pendapatanBulanIni);
+                }
+            }
+
+            // Update comparison text
+            const comparisonToday = document.getElementById('comparison-today');
+            if (comparisonToday) {
+                const selisih = pendapatanHariIni - pendapatanKemarin;
+                if (selisih > 0) {
+                    comparisonToday.textContent = `Naik ${formatRupiah(selisih)} dari kemarin`;
+                    comparisonToday.classList.remove('text-red-500');
+                } else if (selisih < 0) {
+                    comparisonToday.textContent = `Turun ${formatRupiah(Math.abs(selisih))} dari kemarin`;
+                    comparisonToday.classList.add('text-red-500');
+                } else {
+                    comparisonToday.textContent = 'Sama dengan kemarin';
+                }
+            }
+
+            const comparisonMonth = document.getElementById('comparison-month');
+            if (comparisonMonth) {
+                const selisihBulan = pendapatanBulanIni - pendapatanBulanLalu;
+                if (selisihBulan > 0) {
+                    comparisonMonth.textContent = `Naik ${formatRupiah(selisihBulan)} dari bulan lalu`;
+                    comparisonMonth.classList.remove('text-red-500');
+                } else if (selisihBulan < 0) {
+                    comparisonMonth.textContent = `Turun ${formatRupiah(Math.abs(selisihBulan))} dari bulan lalu`;
+                    comparisonMonth.classList.add('text-red-500');
+                } else {
+                    comparisonMonth.textContent = 'Sama dengan bulan lalu';
                 }
             }
 
