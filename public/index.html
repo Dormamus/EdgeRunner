@@ -1,61 +1,304 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>31 Oktober</title>
-  <link rel="stylesheet" href="newp.css">
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Keuangan</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'main-bg': '#1e201e',
+                        'element-bg': '#2a2c2a',
+                        'text-main': '#f0f0f0',
+                        'text-secondary': '#b0b0b0',
+                        'accent': '#697565'
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-  <div class="topbar">
-    <div class="tleft">
-    <div class="burger" onclick="toggleSideBar()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <img class="logo" src="bege.jpg">
-    </div>
-    <h2>Sales Dashboard</h2>
-    <input type="text" placeholder="Pencarian Barang">
-  </div>
-  <div class="mainlayout">
-      <nav class="sidebar">
-        <ul class="mainside">
-          <li><a>Dashboard</a></li>
-          <li><a>Dashboard</a></li>
-          <li><a>Dashboard</a></li>
+<body class="bg-main-bg text-text-main min-h-screen">
+    <!-- Header -->
+    <header class="bg-element-bg p-4 flex items-center justify-between">
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden">
+            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+        
+        <!-- Desktop User Icon -->
+        <div class="hidden md:block w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+            <span class="text-white">U</span>
+        </div>
+        
+        <h1 class="text-xl font-bold">Dashboard</h1>
+        
+        <!-- Header Right (empty) -->
+        <div class="w-6"></div>
+    </header>
+
+    <!-- Mobile Navigation Menu (hidden by default) -->
+    <nav id="mobile-menu" class="hidden md:hidden bg-element-bg p-4 border-t border-accent">
+        <ul class="space-y-2">
+            <li><a href="#" class="block py-2 font-bold text-accent">Dashboard</a></li>
+            <li><a href="#" class="block py-2">Produk</a></li>
+            <li><a href="#" class="block py-2">Pendapatan</a></li>
         </ul>
-        <ul class="otherside">
-          <li><a>Dashboard</a></li>
-          <li><a>Dashboard</a></li>
-          <li><a>Dashboard</a></li>
-        </ul>
-      </nav>
-      <div class="maingrid">
-        <div class="grid toko">
-        <h1>Toko Farizz</h1>
+    </nav>
+
+    <!-- Desktop Sidebar -->
+    <aside class="hidden md:block w-64 bg-element-bg h-screen fixed top-0 left-0 border-r border-accent">
+        <div class="p-4">
+            <div class="w-10 h-10 rounded-full bg-accent mb-6 flex items-center justify-center">
+                <span class="text-white">U</span>
+            </div>
+            <ul class="space-y-4">
+                <li><a href="#" class="block py-2 font-bold text-accent">Dashboard</a></li>
+                <li><a href="#" class="block py-2">Produk</a></li>
+                <li><a href="#" class="block py-2">Pendapatan</a></li>
+            </ul>
         </div>
-        <div class="grid g1"></div>
-        <div class="grid g2"></div>
-        <div class="grid g3"></div>
-        <div class="grid g4"></div>
-        <div class="swpbtn swpbtn1">
-          <button class="swap" onclick="swapTop()">Swap</button>
-        </div>
-        <div class="grid sg g5 cviewp"><canvas id="barchart"></canvas>Gerid</div>
-        <div class="grid sg g6 hviewp">+<canvas id="linechart"></canvas>Dirger</div>
-        <div class="swpbtn swpbtn2">
-          <button class="swap" onclick="swapBottom()">Swap</button>
-        </div>
-        <div class="grid sg g7 cviewp"><canvas id="piechart"></canvas>jsnsnn</div>
-        <div class="grid sg g8 hviewp"><canvas id="piechart1"></canvas>kwisos</div>
-      </div>
-  </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="md:ml-64 p-4">
+        <!-- Mobile: Total Saldo -->
+        <section class="md:hidden mb-6">
+            <h2 class="text-lg font-bold mb-2">Total Pendapatan</h2>
+            <div class="bg-element-bg p-4 rounded-xl">
+                <p class="text-2xl font-bold">RP 6.906.700</p>
+            </div>
+        </section>
+
+        <!-- Mobile: Riwayat Transaksi -->
+        <section class="md:hidden mb-6">
+            <button class="w-full bg-element-bg border-2 border-accent rounded-xl p-3 flex justify-between items-center">
+                <span>Riwayat Transaksi</span>
+                <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Desktop: Summary Cards -->
+        <section class="hidden md:grid grid-cols-3 gap-6 mb-8">
+            <div class="bg-element-bg p-5 rounded-xl">
+                <h2 class="text-lg font-bold mb-3">Total Pendapatan</h2>
+                <p class="text-2xl font-bold">RP 6.340.500</p>
+            </div>
+            
+            <div class="bg-element-bg p-5 rounded-xl">
+                <h2 class="text-lg font-bold mb-3">Pendapatan Hari Ini</h2>
+                <p class="text-2xl font-bold">RP 67.000</p>
+                <p class="text-sm text-text-secondary mt-1">Naik RP 3.400 dari kemarin</p>
+            </div>
+            
+            <div class="bg-element-bg p-5 rounded-xl">
+                <h2 class="text-lg font-bold mb-3">Pendapatan Bulan Ini</h2>
+                <p class="text-2xl font-bold">RP 340.500</p>
+                <p class="text-sm text-text-secondary mt-1">Naik RP 3.400 dari bulan lalu</p>
+                <button class="mt-3 flex items-center text-accent border border-accent rounded-lg px-3 py-1.5 text-sm">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    History Penjualan
+                </button>
+            </div>
+        </section>
+
+        <!-- Mobile: Daily & Monthly Income -->
+        <section class="md:hidden space-y-6 mb-8">
+            <div class="bg-element-bg p-4 rounded-xl">
+                <h2 class="text-lg font-bold mb-2">Pendapatan Hari Ini</h2>
+                <p class="text-2xl font-bold">RP 67.000</p>
+                <p class="text-sm text-text-secondary">Naik RP 3.400 dari kemarin</p>
+            </div>
+            
+            <div class="bg-element-bg p-4 rounded-xl">
+                <h2 class="text-lg font-bold mb-2">Pendapatan Bulan Ini</h2>
+                <p class="text-2xl font-bold">RP 340.500</p>
+                <p class="text-sm text-text-secondary">Naik RP 3.400 dari bulan lalu</p>
+            </div>
+        </section>
+
+        <!-- Chart Section -->
+        <section class="hidden md:grid md:grid-cols-2 gap-6 mb-8">
+            <!-- Chart Card -->
+            <div class="bg-element-bg p-5 rounded-xl">
+                <h2 class="text-lg font-bold mb-3">Statistik Pendapatan Tahun Ini</h2>
+                <div class="h-64">
+                    <canvas id="revenueChart" class="my-auto"></canvas>
+                </div>
+            </div>
+            
+            <!-- Top Products Card -->
+            <div class="bg-element-bg p-5 rounded-xl">
+                <h2 class="text-lg font-bold mb-3">Produk Terlaris</h2>
+                <div class="overflow-x-auto h-96">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-accent">
+                                <th class="text-left py-2">Nama Produk</th>
+                                <th class="text-right py-2">Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-accent">
+                                <td class="py-3">Biji Kuda Liar</td>
+                                <td class="text-right">69</td>
+                            </tr>
+                            <tr class="border-b border-accent">
+                                <td class="py-3">Biji Kuda</td>
+                                <td class="text-right">67</td>
+                            </tr>
+                            <tr class="border-b border-accent">
+                                <td class="py-3">Susu Sapi</td>
+                                <td class="text-right">34</td>
+                            </tr>
+                            <tr class="border-b border-accent">
+                                <td class="py-3">Kuda Jinak</td>
+                                <td class="text-right">24</td>
+                            </tr>
+                            <tr class="border-b border-accent">
+                                <td class="py-3">Susu Kuda Liar</td>
+                                <td class="text-right">18</td>
+                            </tr>
+                            <tr class="border-b border-accent">
+                                <td class="py-3">Nigga Bakar</td>
+                                <td class="text-right">13</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3">Mie Goreng</td>
+                                <td class="text-right">7</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile: Yearly Revenue Chart -->
+        <section class="md:hidden mb-6">
+            <h2 class="text-lg font-bold mb-2">Pendapatan Tahun Ini</h2>
+            <div class="bg-element-bg p-4 rounded-xl">
+                <div class="h-64">
+                    <canvas id="mobileRevenueChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile: Top Products -->
+        <section class="md:hidden">
+            <h2 class="text-lg font-bold mb-2">Produk Terlaris</h2>
+            <div class="bg-element-bg p-4 rounded-xl">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-accent">
+                            <th class="text-left py-2">Nama Produk</th>
+                            <th class="text-right py-2">Jumlah</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-accent">
+                            <td class="py-3">Biji kuda liar</td>
+                            <td class="text-right">69</td>
+                        </tr>
+                        <tr class="border-b border-accent">
+                            <td class="py-3">Kuda Jinak</td>
+                            <td class="text-right">67</td>
+                        </tr>
+                        <tr class="border-b border-accent">
+                            <td class="py-3">Biji-bijian</td>
+                            <td class="text-right">34</td>
+                        </tr>
+                        <tr class="border-b border-accent">
+                            <td class="py-3">Kuda liar</td>
+                            <td class="text-right">18</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3">Biji kuda jinak</td>
+                            <td class="text-right">6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Chart configuration
+        const chartConfig = {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Pendapatan',
+                    data: [20000, 28000, 10000, 35000, 37000, 70000, 72000, 50000, 35000, 25000, 5000, 45000],
+                    borderColor: '#697565',
+                    borderWidth: 3,
+                    fill: false,
+                    tension: 0.3,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#697565'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(105, 117, 101, 0.2)'
+                        },
+                        ticks: {
+                            color: '#b0b0b0',
+                            callback: function(value) {
+                                return 'Rp ' + value.toLocaleString();
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#b0b0b0'
+                        }
+                    }
+                }
+            }
+        };
+
+        // Initialize charts
+        const desktopChart = new Chart(
+            document.getElementById('revenueChart'),
+            chartConfig
+        );
+
+        const mobileChart = new Chart(
+            document.getElementById('mobileRevenueChart'),
+            chartConfig
+        );
+    </script>
 </body>
-<script src="next.js"></script>
-<script src="swap.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="chart-fix.js"></script>
 </html>

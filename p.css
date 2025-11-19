@@ -1,0 +1,173 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --bg-page: #ECDFCC;          /* Latar halaman utama */
+  --bg-card: #FFFFFF;          /* Latar card/tabel/form */
+  --text-primary: #1E201E;     /* Teks utama & angka */
+  --text-secondary: #3C3D37;   /* Teks pendukung (tanggal, kategori) */
+  --accent: #697565;           /* Aksen: tombol, pemasukan, ikon aktif */
+  --border: #3C3D37;           /* Garis pemisah, border */
+  --card-shadow: rgba(30, 32, 30, 0.08); /* Bayangan ringan */
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.5;
+  padding: 16px;
+}
+
+/* Kartu Transaksi / Form Input */
+.card {
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px var(--card-shadow);
+  border: 1px solid rgba(60, 61, 55, 0.1);
+}
+
+/* Judul & Angka Besar */
+.heading {
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Teks sekunder: tanggal, kategori */
+.meta {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Tombol Utama (Tambah, Simpan) */
+.btn-primary {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #7a8875; /* sedikit lebih terang */
+}
+
+/* Tombol Tambah (Floating Action Button) */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(105, 117, 101, 0.4);
+  cursor: pointer;
+}
+
+/* Daftar Transaksi */
+.transaction-list {
+  list-style: none;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(60, 61, 55, 0.1);
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+/* Warna untuk pemasukan (opsional, bisa pakai aksen) */
+.income {
+  color: var(--accent);
+}
+
+/* Pengeluaran bisa tetap hitam atau sedikit redup */
+.expense {
+  color: var(--text-secondary);
+}
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  height: 2px;
+  background-color: var(--text-primary); /* #1E201E */
+  border-radius: 2px;
+  transition: 0.3s;
+}
+.hamburger span {
+  background-color: var(--text-secondary); /* #3C3D37 */
+}
+.hamburger span {
+  background-color: var(--text-secondary); /* #3C3D37 */
+}
+.hamburger:hover span {
+  background-color: var(--accent); /* #697565 — hanya saat hover */
+}
+.navbar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(30, 32, 30, 0.1);
+  z-index: 100;
+}
+
+.navbar-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+  text-align: center;
+}
+
+.navbar-left,
+.navbar-right {
+  width: 40px; /* ruang untuk ikon */
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-icon {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.navbar-icon:hover {
+  color: var(--accent);
+}
