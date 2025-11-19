@@ -256,15 +256,183 @@
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Mobile Menu Script -->
     <script>
-        // Chart configuration
+        const mobileMenu = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('overlay');
+        const menuButton = document.getElementById('mobile-menu-button');
+
+        menuButton.addEventListener('click', function() {
+            if (mobileMenu.classList.contains('-translate-x-full')) {
+                mobileMenu.classList.remove('-translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+                mobileMenu.classList.remove('slide-out');
+                mobileMenu.classList.add('slide-in');
+
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.remove('opacity-0');
+                    overlay.classList.add('opacity-100');
+                }, 10);
+
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('-translate-x-full');
+                mobileMenu.classList.remove('slide-in');
+                mobileMenu.classList.add('slide-out');
+
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }, 300);
+            }
+        });
+
+        overlay.addEventListener('click', function() {
+            mobileMenu.classList.remove('translate-x-0');
+            mobileMenu.classList.add('-translate-x-full');
+            mobileMenu.classList.remove('slide-in');
+            mobileMenu.classList.add('slide-out');
+
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0');
+
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        });
+    </script>
+
+    <!-- Dashboard Module Script -->
+    <script type="module">
+    import EdgeRunnerAPI from './koneksi.js';
+
+    function formatRupiah(n) {
+        const num = Number(n) || 0;
+        return 'Rp ' + num.toLocaleString('id-ID');
+    }
+
+    async function loadDashboardData() {
+        try {
+            const [penjualanData, produkData, ekonomiData] = await Promise.all([
+                EdgeRunnerAPI.getPenjualan(),
+                EdgeRunnerAPI.getProduk(),
+                EdgeRunnerAPI.getEkonomi()
+            ]);
+
+            const now = new Date();
+            const hariIni = now.getDate();
+            const bulanIni = now.getMonth() + 1;
+            const tahunIni = now.getFullYear();
+
+            // Calculate totals
+            const totalPendapatan = (penjualanData || []).reduce((sum, p) => sum + (Number(p.total) || 0), 0);
+            const pendapatanHariIni = (penjualanData || [])
+                .filter(p => p.tanggal === hariIni && p.bulan === bulanIni && p.tahun === tahunIni)
+                .reduce((sum, p) => sum + (Number(p.total) || 0), 0);
+            
+            const ekonomiBulanIni = (ekonomiData || []).find(e => e.bulan === bulanIni && e.tahun === tahunIni);
+            const pendapatanBulanIni = ekonomiBulanIni ? Number(ekonomiBulanIni.totalPendapatan) : 0;
+
+            // Update UI - Mobile Total Saldo
+            const mobileSaldoEls = document.querySelectorAll('.md\\:hidden .text-2xl.font-bold');
+            if (mobileSaldoEls.length > 0) {
+                mobileSaldoEls[0].textContent = formatRupiah(totalPendapatan);
+            }
+
+            // Update UI - Desktop Summary Cards
+            const desktopSummarySection = document.querySelector('section.hidden.md\\:grid.grid-cols-3');
+            if (desktopSummarySection) {
+                const summaryCards = desktopSummarySection.querySelectorAll('.text-2xl.font-bold');
+                if (summaryCards.length >= 3) {
+                    summaryCards[0].textContent = formatRupiah(totalPendapatan);
+                    summaryCards[1].textContent = formatRupiah(pendapatanHariIni);
+                    summaryCards[2].textContent = formatRupiah(pendapatanBulanIni);
+                }
+            }
+
+            // Update UI - Mobile Daily & Monthly
+            const mobileDailySection = document.querySelector('section.md\\:hidden.space-y-6');
+            if (mobileDailySection) {
+                const dailyMonthlyCards = mobileDailySection.querySelectorAll('.text-2xl.font-bold');
+                if (dailyMonthlyCards.length >= 2) {
+                    dailyMonthlyCards[0].textContent = formatRupiah(pendapatanHariIni);
+                    dailyMonthlyCards[1].textContent = formatRupiah(pendapatanBulanIni);
+                }
+            }
+
+            // Calculate top products
+            const topProducts = {};
+            (penjualanData || []).forEach(p => {
+                if (p.namaProduk) {
+                    topProducts[p.namaProduk] = (topProducts[p.namaProduk] || 0) + Number(p.jumlah);
+                }
+            });
+            const topProductsList = Object.entries(topProducts)
+                .map(([nama, jumlah]) => ({nama, jumlah}))
+                .sort((a, b) => b.jumlah - a.jumlah)
+                .slice(0, 10);
+
+            // Update Desktop Top Products Table
+            const allH2s = document.querySelectorAll('h2');
+            for (const h2 of allH2s) {
+                if (h2.textContent.includes('Produk Terlaris')) {
+                    const table = h2.closest('div')?.querySelector('table tbody');
+                    if (table) {
+                        table.innerHTML = topProductsList.map(p => `
+                            <tr class="border-b border-accent">
+                                <td class="py-3">${escapeHtml(p.nama)}</td>
+                                <td class="text-right">${p.jumlah}</td>
+                            </tr>
+                        `).join('');
+                    }
+                    break;
+                }
+            }
+
+            // Update Mobile Top Products Table
+            const mobileSection = document.querySelector('section.md\\:hidden:last-of-type');
+            if (mobileSection) {
+                const mobileTable = mobileSection.querySelector('table tbody');
+                if (mobileTable) {
+                    mobileTable.innerHTML = topProductsList.slice(0, 5).map(p => `
+                        <tr class="border-b border-accent">
+                            <td class="py-3">${escapeHtml(p.nama)}</td>
+                            <td class="text-right">${p.jumlah}</td>
+                        </tr>
+                    `).join('');
+                }
+            }
+
+            // Prepare chart data (ekonomi per bulan tahun ini)
+            const chartData = Array(12).fill(0);
+            (ekonomiData || []).forEach(e => {
+                if (e.tahun === tahunIni && e.bulan >= 1 && e.bulan <= 12) {
+                    chartData[e.bulan - 1] = Number(e.totalPendapatan) || 0;
+                }
+            });
+
+            // Initialize charts
+            initCharts(chartData);
+        } catch (err) {
+            console.error('Gagal memuat data dashboard', err);
+        }
+    }
+
+    function initCharts(chartData) {
         const chartConfig = {
             type: 'line',
             data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
                     label: 'Pendapatan',
-                    data: [20000, 28000, 10000, 35000, 37000, 70000, 72000, 50000, 35000, 25000, 5000, 45000],
+                    data: chartData,
                     borderColor: '#697565',
                     borderWidth: 3,
                     fill: false,
@@ -290,7 +458,7 @@
                         ticks: {
                             color: '#b0b0b0',
                             callback: function(value) {
-                                return 'Rp ' + value.toLocaleString();
+                                return formatRupiah(value);
                             }
                         }
                     },
@@ -306,73 +474,34 @@
             }
         };
 
-        // Initialize charts
-        const desktopChart = new Chart(
-            document.getElementById('revenueChart'),
-            chartConfig
-        );
-
-        const mobileChart = new Chart(
-            document.getElementById('mobileRevenueChart'),
-            chartConfig
-        );
-    
-    const mobileMenu = document.getElementById('mobile-menu');
-    const overlay = document.getElementById('overlay');
-    const menuButton = document.getElementById('mobile-menu-button');
-
-    menuButton.addEventListener('click', function() {
-        if (mobileMenu.classList.contains('-translate-x-full')) {
-            // BUKA MENU
-            mobileMenu.classList.remove('-translate-x-full');
-            mobileMenu.classList.add('translate-x-0');
-            mobileMenu.classList.remove('slide-out');
-            mobileMenu.classList.add('slide-in');
-
-            // Tampilkan overlay dengan animasi fade-in
-            overlay.classList.remove('hidden');
-            setTimeout(() => {
-                overlay.classList.remove('opacity-0');
-                overlay.classList.add('opacity-100');
-            }, 10); // Delay kecil agar transisi terlihat
-
-            // Disable scroll
-            document.body.style.overflow = 'hidden';
-
-        } else {
-            // TUTUP MENU
-            mobileMenu.classList.remove('translate-x-0');
-            mobileMenu.classList.add('-translate-x-full');
-            mobileMenu.classList.remove('slide-in');
-            mobileMenu.classList.add('slide-out');
-
-            // Fade-out overlay
-            overlay.classList.remove('opacity-100');
-            overlay.classList.add('opacity-0');
-
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                // Enable scroll
-                document.body.style.overflow = '';
-            }, 300); // Sesuaikan dengan durasi transisi CSS
+        const desktopChartEl = document.getElementById('revenueChart');
+        if (desktopChartEl) {
+            try {
+                new Chart(desktopChartEl, chartConfig);
+            } catch (e) {
+                console.error('Error initializing desktop chart:', e);
+            }
         }
-    });
 
-    // Close menu when clicking overlay
-    overlay.addEventListener('click', function() {
-        mobileMenu.classList.remove('translate-x-0');
-        mobileMenu.classList.add('-translate-x-full');
-        mobileMenu.classList.remove('slide-in');
-        mobileMenu.classList.add('slide-out');
+        const mobileChartEl = document.getElementById('mobileRevenueChart');
+        if (mobileChartEl) {
+            try {
+                new Chart(mobileChartEl, chartConfig);
+            } catch (e) {
+                console.error('Error initializing mobile chart:', e);
+            }
+        }
+    }
 
-        overlay.classList.remove('opacity-100');
-        overlay.classList.add('opacity-0');
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/[&<>"']/g, function (s) {
+            return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[s];
+        });
+    }
 
-        setTimeout(() => {
-            overlay.classList.add('hidden');
-            document.body.style.overflow = '';
-        }, 300);
-    });
-</script>
+    loadDashboardData();
+
+    </script>
 </body>
 </html>

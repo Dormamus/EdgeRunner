@@ -140,49 +140,8 @@
         </div>
     </main>
 
-    <!-- JavaScript -->
+    <!-- JavaScript for Mobile Menu -->
     <script>
-        // Sample data penjualan - nanti akan diganti dengan data dari backend
-        const salesData = [
-            {
-                id: 1,
-                nama: 'Kuda Liar',
-                jumlah: 2,
-                hargaSatuan: 19000000,
-                tanggal: '2025-11-18'
-            },
-            {
-                id: 2,
-                nama: 'Indomie',
-                jumlah: 10,
-                hargaSatuan: 3000,
-                tanggal: '2025-11-18'
-            },
-            {
-                id: 3,
-                nama: 'Aqua',
-                jumlah: 5,
-                hargaSatuan: 5000,
-                tanggal: '2025-11-17'
-            },
-            {
-                id: 4,
-                nama: 'Biji Kuda',
-                jumlah: 20,
-                hargaSatuan: 50000,
-                tanggal: '2025-11-17'
-            }
-        ];
-
-        let deleteTarget = null;
-
-        const tableBody = document.getElementById('sales-table-body');
-        const emptyState = document.getElementById('empty-state');
-        const deleteModal = document.getElementById('delete-modal');
-        const deleteModalOverlay = document.getElementById('delete-modal-overlay');
-        const cancelDeleteBtn = document.getElementById('cancel-delete');
-        const confirmDeleteBtn = document.getElementById('confirm-delete');
-
         // Mobile Menu Logic
         const mobileMenu = document.getElementById('mobile-menu');
         const overlay = document.getElementById('overlay');
@@ -232,24 +191,68 @@
                 document.body.style.overflow = '';
             }, 300);
         });
+    </script>
 
-        // Render sales table
-        function renderTable() {
-            if (salesData.length === 0) {
-                tableBody.innerHTML = '';
-                emptyState.classList.remove('hidden');
+    <!-- Module Script for History Data -->
+    <script type="module">
+    import EdgeRunnerAPI from './koneksi.js';
+
+    const tableBody = document.getElementById('sales-table-body');
+    const emptyState = document.getElementById('empty-state');
+    const deleteModal = document.getElementById('delete-modal');
+    const deleteModalOverlay = document.getElementById('delete-modal-overlay');
+    const cancelDeleteBtn = document.getElementById('cancel-delete');
+    const confirmDeleteBtn = document.getElementById('confirm-delete');
+
+    let deleteTarget = null;
+    let allSalesData = [];
+
+    function formatRupiah(n) {
+        const num = Number(n) || 0;
+        return 'Rp ' + num.toLocaleString('id-ID');
+    }
+
+    function formatDate(tanggal, bulan, tahun) {
+        const d = new Date(tahun, bulan - 1, tanggal);
+        return d.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    async function loadPenjualanHistory() {
+        try {
+            const data = await EdgeRunnerAPI.getPenjualan();
+            if (!data || !data.length) {
+                allSalesData = [];
+                renderTable();
                 return;
             }
+            // Take latest 100 items (sort descending by id, which is timestamp)
+            allSalesData = data.sort((a, b) => b.id - a.id).slice(0, 100);
+            renderTable();
+        } catch (err) {
+            console.error('Gagal memuat data penjualan', err);
+            tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-text-secondary">Gagal memuat data penjualan</td></tr>';
+        }
+    }
 
-            emptyState.classList.add('hidden');
-            tableBody.innerHTML = salesData.map((item, index) => `
+    function renderTable() {
+        if (allSalesData.length === 0) {
+            tableBody.innerHTML = '';
+            emptyState.classList.remove('hidden');
+            return;
+        }
+
+        emptyState.classList.add('hidden');
+        tableBody.innerHTML = allSalesData.map((item, index) => {
+            const tanggal = formatDate(item.tanggal, item.bulan, item.tahun);
+            const total = item.jumlah * item.hargaSatuan;
+            return `
                 <tr class="border-b border-accent hover:bg-opacity-50 transition">
                     <td class="py-3 px-4">${index + 1}</td>
-                    <td class="py-3 px-4">${item.nama}</td>
+                    <td class="py-3 px-4">${escapeHtml(item.namaProduk)}</td>
                     <td class="py-3 px-4">${item.jumlah}</td>
-                    <td class="py-3 px-4">Rp ${item.hargaSatuan.toLocaleString('id-ID')}</td>
-                    <td class="py-3 px-4 font-bold">Rp ${(item.jumlah * item.hargaSatuan).toLocaleString('id-ID')}</td>
-                    <td class="py-3 px-4">${new Date(item.tanggal).toLocaleDateString('id-ID')}</td>
+                    <td class="py-3 px-4">${formatRupiah(item.hargaSatuan)}</td>
+                    <td class="py-3 px-4 font-bold">${formatRupiah(total)}</td>
+                    <td class="py-3 px-4">${tanggal}</td>
                     <td class="py-3 px-4 text-center">
                         <button class="text-red-500 hover:text-red-700 delete-btn" data-id="${item.id}">
                             <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -258,57 +261,71 @@
                         </button>
                     </td>
                 </tr>
-            `).join('');
+            `;
+        }).join('');
 
-            // Attach delete button listeners
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => openDeleteModal(parseInt(btn.dataset.id)));
-            });
-        }
-
-        function openDeleteModal(id) {
-            deleteTarget = id;
-            deleteModal.classList.remove('hidden');
-            deleteModal.classList.add('flex');
-            deleteModalOverlay.classList.remove('hidden');
-            setTimeout(() => {
-                deleteModalOverlay.classList.remove('opacity-0');
-                deleteModalOverlay.classList.add('opacity-100');
-            }, 10);
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeDeleteModal() {
-            deleteModal.classList.remove('flex');
-            deleteModal.classList.add('hidden');
-            deleteModalOverlay.classList.remove('opacity-100');
-            deleteModalOverlay.classList.add('opacity-0');
-            setTimeout(() => {
-                deleteModalOverlay.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 200);
-            deleteTarget = null;
-        }
-
-        cancelDeleteBtn.addEventListener('click', closeDeleteModal);
-        deleteModalOverlay.addEventListener('click', closeDeleteModal);
-
-        confirmDeleteBtn.addEventListener('click', () => {
-            if (deleteTarget !== null) {
-                // Remove the item from array
-                const index = salesData.findIndex(item => item.id === deleteTarget);
-                if (index > -1) {
-                    salesData.splice(index, 1);
-                    // TODO: Send delete request to backend
-                    console.log('Deleted sale with id:', deleteTarget);
-                }
-                closeDeleteModal();
-                renderTable();
-            }
+        // Attach delete button listeners
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => openDeleteModal(parseInt(btn.dataset.id)));
         });
+    }
 
-        // Initial render
-        renderTable();
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/[&<>"']/g, function (s) {
+            return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[s];
+        });
+    }
+
+    function openDeleteModal(id) {
+        deleteTarget = id;
+        deleteModal.classList.remove('hidden');
+        deleteModal.classList.add('flex');
+        deleteModalOverlay.classList.remove('hidden');
+        setTimeout(() => {
+            deleteModalOverlay.classList.remove('opacity-0');
+            deleteModalOverlay.classList.add('opacity-100');
+        }, 10);
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDeleteModal() {
+        deleteModal.classList.remove('flex');
+        deleteModal.classList.add('hidden');
+        deleteModalOverlay.classList.remove('opacity-100');
+        deleteModalOverlay.classList.add('opacity-0');
+        setTimeout(() => {
+            deleteModalOverlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }, 200);
+        deleteTarget = null;
+    }
+
+    cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+    deleteModalOverlay.addEventListener('click', closeDeleteModal);
+
+    confirmDeleteBtn.addEventListener('click', async () => {
+        if (deleteTarget !== null) {
+            confirmDeleteBtn.disabled = true;
+            confirmDeleteBtn.classList.add('opacity-60');
+            try {
+                await EdgeRunnerAPI.deletePenjualan(deleteTarget);
+                alert('Penjualan berhasil dihapus (ekonomi.json juga diperbarui)');
+                await loadPenjualanHistory();
+            } catch (err) {
+                console.error('Gagal menghapus penjualan', err);
+                alert('Gagal menghapus penjualan');
+            } finally {
+                confirmDeleteBtn.disabled = false;
+                confirmDeleteBtn.classList.remove('opacity-60');
+                closeDeleteModal();
+            }
+        }
+    });
+
+    // Initial load
+    loadPenjualanHistory();
+
     </script>
 </body>
 </html>
