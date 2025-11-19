@@ -12,6 +12,7 @@ const app = express();
 const PORT = 3000;
 
 // Middleware
+app.set('trust proxy', true);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public"))); //Membuat folder public dapat diakses via Browser
 
