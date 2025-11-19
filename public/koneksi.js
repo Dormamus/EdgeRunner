@@ -23,10 +23,27 @@ export async function getProduk() {
 }
 
 export async function addProduk({ nama, harga , kategori}) {
+	// If a file is provided as `harga`? (legacy) — caller should pass `gambar` when needed.
+	// Support sending multipart/form-data when a File is present under `gambar` property.
+	if (arguments[0] && arguments[0].gambar instanceof File) {
+		const { nama, harga, gambar } = arguments[0];
+		const formData = new FormData();
+		formData.append('nama', nama);
+		formData.append('harga', harga);
+		formData.append('gambar', gambar);
+
+		const res = await fetch(`${API_BASE}/produk`, {
+			method: 'POST',
+			body: formData
+		});
+		return handleResponse(res);
+	}
+
+	const { nama: n, harga: h } = arguments[0] || {};
 	const res = await fetch(`${API_BASE}/produk`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ nama, harga , kategori})
+		body: JSON.stringify({ nama: n, harga: h })
 	});
 	return handleResponse(res);
 }
@@ -35,7 +52,7 @@ export async function updateProduk(id, { nama, harga, kategori }) {
 	const res = await fetch(`${API_BASE}/produk/${id}`, {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ nama, harga, kategori })
+		body: JSON.stringify({ nama, harga })
 	});
 	return handleResponse(res);
 }

@@ -7,20 +7,19 @@ const produkPath = path.resolve("data/produk.json");
 
 // CREATE
 export function addProduk(req, res) {
-    const { nama, harga, kategori } = req.body;
-    
-    if (!nama || !harga || !kategori) {
-        return res.status(400).json({ error: "Nama, harga, dan kategori wajib diisi" });
+    const { nama, harga } = req.body;
+
+    if (!nama || !harga) {
+        return res.status(400).json({ error: "Nama dan harga wajib diisi" });
     }
-    
+
     const data = readJSON(produkPath) || [];
     const produkId = Date.now();
-    
+
     const newProduk = {
         id: produkId,
         nama,
         harga,
-        kategori,
         gambar: null // akan diisi jika ada upload
     };
     
@@ -55,7 +54,7 @@ export function getProduk(req, res) {
 // UPDATE
 export function updateProduk(req, res) {
     const { id } = req.params;
-    const { nama, harga, kategori } = req.body;
+    const { nama, harga } = req.body;
 
     let data = readJSON(produkPath) || [];
     const index = data.findIndex((p) => p.id == id);
@@ -66,7 +65,6 @@ export function updateProduk(req, res) {
 
     if (nama) data[index].nama = nama;
     if (harga) data[index].harga = harga;
-    if (kategori) data[index].kategori = kategori;
 
     writeJSON(produkPath, data);
     res.json(data[index]);
