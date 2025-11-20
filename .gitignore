@@ -10,7 +10,8 @@ yarn-error.log*
 .env
 
 # Data lokal (kalau berisi data sensitif)
-# data/*.json
+data/*.json
+public/assets/produk/
 
 # Backup or temp files
 *.tmp

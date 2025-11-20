@@ -140,7 +140,7 @@
 
                     <div class="flex justify-end gap-2 pt-2">
                         <button type="button" class="close-modal bg-transparent border border-accent text-accent px-4 py-2 rounded-lg hover:bg-accent hover:text-white">Batal</button>
-                        <button type="submit" class="bg-accent text-white px-4 py-2 rounded-lg hover:opacity-90">Simpan</button>
+                        <button id="save-product-btn" type="submit" class="bg-accent text-white px-4 py-2 rounded-lg hover:opacity-90">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -435,6 +435,13 @@
         const nama = document.getElementById('product-name').value.trim();
         const harga = document.getElementById('product-price').value;
         const gambar = apiFileInput.files[0];
+        const saveBtn = document.getElementById('save-product-btn');
+
+        // disable save button to prevent double submit
+        if (saveBtn) {
+            saveBtn.disabled = true;
+            saveBtn.classList.add('opacity-60');
+        }
 
         try {
             if (currentEditId) {
@@ -464,6 +471,12 @@
         } catch (err) {
             console.error('Gagal menyimpan produk', err);
             alert('Gagal menyimpan produk');
+        } finally {
+            // re-enable save button
+            if (saveBtn) {
+                saveBtn.disabled = false;
+                saveBtn.classList.remove('opacity-60');
+            }
         }
     });
 

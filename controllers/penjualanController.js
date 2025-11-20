@@ -15,9 +15,14 @@ export function getPenjualan(req, res) {
 export function addPenjualan(req, res) {
     const { produkId, jumlah } = req.body;
 
-    if (!produkId || !jumlah) {
-        return res.status(400).json({ error: "produkId dan jumlah wajib diisi" });
+    // Pastikan produkId ada dan jumlah dapat diubah menjadi angka
+    const jumlahNum = Number(jumlah);
+    if (!produkId || isNaN(jumlahNum) || jumlahNum <= 0) {
+        return res.status(400).json({ error: "produkId dan jumlah (lebih dari 0) wajib diisi" });
     }
+
+    // Bulatkan ke bawah untuk memastikan jumlah integer (contoh: 1.7 => 1)
+    const jumlahInt = Math.floor(jumlahNum);
 
     const produk = readJSON(produkPath) || [];
     const penjualan = readJSON(penjualanPath) || [];
@@ -27,13 +32,13 @@ export function addPenjualan(req, res) {
         return res.status(404).json({ error: "Produk tidak ditemukan" });
     }
 
-    const total = p.harga * jumlah;
+    const total = p.harga * jumlahInt;
 
     const newPenjualan = {
         id: Date.now(),
         produkId,
         namaProduk: p.nama,
-        jumlah,
+        jumlah: jumlahInt,
         hargaSatuan: p.harga,
         total,
         tanggal: new Date().getDate(),
