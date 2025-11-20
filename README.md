@@ -1,4 +1,4 @@
-# 🚀 EdgeRunner - Sistem Manajemen Produk & Penjualan
+# 🚀 Tokoku - Sistem Manajemen Produk & Penjualan
 
 Aplikasi web full-stack untuk mengelola katalog produk, mencatat penjualan, dan melacak pendapatan dengan dashboard yang responsif dan intuitif. Sempurna untuk UMKM, warung, atau toko kecil.
 
